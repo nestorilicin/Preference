@@ -1,0 +1,3 @@
+Projekat iz predmeta Programiranje Mobilnih uredjaja.
+Jetpack compose android aplikacija za kartašku igru preferans sa singleplayer (jedan igrač i dva bota) i multiplayer (tri igrača).
+Više u specifikaciji projekta...
