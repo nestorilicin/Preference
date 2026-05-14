@@ -1,4 +1,4 @@
-package etf.nestor.preferance.ui.theme
+package etf.nestor.preference.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

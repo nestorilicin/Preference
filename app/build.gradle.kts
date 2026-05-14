@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "etf.nestor.preferance"
+    namespace = "etf.nestor.preference"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "etf.nestor.preferance"
+        applicationId = "etf.nestor.preference"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

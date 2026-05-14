@@ -1,4 +1,4 @@
-package etf.nestor.preferance
+package etf.nestor.preference
 
 import org.junit.Test
 
