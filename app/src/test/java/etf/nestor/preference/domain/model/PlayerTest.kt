@@ -1,4 +1,4 @@
-package etf.nestor.preference
+package etf.nestor.preference.domain.model
 
 import etf.nestor.preference.domain.model.Player
 import etf.nestor.preference.domain.model.PlayingCard
@@ -42,13 +42,13 @@ class PlayerTest {
 
     @Test
     fun player_increase_points(){
-        val player = Player("Igrac", 120 , 0)
+        val player = Player("Igrac", 120, 0)
         player.gainPoints(-10)
         assert(player.totalPoints == 110)
     }
     @Test
     fun player_add_cards_and_clean(){
-        val player = Player("Testic", 100 , 0)
+        val player = Player("Testic", 100, 0)
         player.addCards(listOf(
             PlayingCard(Suit.SPADES, Rank.TEN),
             PlayingCard(Suit.SPADES, Rank.EIGHT),

@@ -1,4 +1,4 @@
-package etf.nestor.preference
+package etf.nestor.preference.domain.rules
 
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.domain.model.Rank

@@ -1,10 +1,5 @@
-package etf.nestor.preference
+package etf.nestor.preference.domain.game
 
-import etf.nestor.preference.domain.game.Dealer
-import etf.nestor.preference.domain.game.Deck
-import etf.nestor.preference.domain.game.GameEngine
-import etf.nestor.preference.domain.game.RoundState
-import etf.nestor.preference.domain.game.Talon
 import etf.nestor.preference.domain.model.PlayedCard
 import etf.nestor.preference.domain.model.Player
 import etf.nestor.preference.domain.model.PlayingCard
@@ -12,7 +7,7 @@ import etf.nestor.preference.domain.model.Rank
 import etf.nestor.preference.domain.model.Suit
 import org.junit.Test
 
-class GamePackageTest {
+class RoundAndDealerTest {
     private fun createPlayers(): List<Player> {
         return listOf(
             Player(

@@ -1,6 +1,5 @@
-package etf.nestor.preference
+package etf.nestor.preference.domain.game
 
-import etf.nestor.preference.domain.game.Deck
 import org.junit.Test
 
 class DeckTest {

@@ -1,4 +1,4 @@
-package etf.nestor.preference.bidding
+package etf.nestor.preference.domain.bidding
 
 import etf.nestor.preference.domain.bidding.BidAction
 import etf.nestor.preference.domain.bidding.BiddingManager
