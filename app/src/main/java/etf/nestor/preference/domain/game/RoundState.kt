@@ -4,7 +4,12 @@ import etf.nestor.preference.domain.model.Player
 import etf.nestor.preference.domain.model.Suit
 import etf.nestor.preference.domain.model.Trick
 
-class RoundState(val players: List<Player>, val trumpSuit: Suit, firstPlayer: Int) {
+class RoundState(
+    val players: List<Player>,
+    val trumpSuit: Suit,
+    firstPlayer: Int,
+    val talon: Talon
+) {
     var currentPlayer: Int = firstPlayer
         private set
 
@@ -22,5 +27,9 @@ class RoundState(val players: List<Player>, val trumpSuit: Suit, firstPlayer: In
     fun finishCurrentTrick() {
         _finishedTricks.add(currentTrick)
         currentTrick = Trick(trumpSuit)
+    }
+
+    fun setCurrentPlayer(player : Int){
+        currentPlayer = player
     }
 }

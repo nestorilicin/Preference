@@ -1,4 +1,8 @@
-package etf.nestor.preference.domain.model
+package etf.nestor.preference.domain.game
+
+import etf.nestor.preference.domain.model.PlayingCard
+import etf.nestor.preference.domain.model.Rank
+import etf.nestor.preference.domain.model.Suit
 
 class Deck {
     private val cards = mutableListOf<PlayingCard>()
