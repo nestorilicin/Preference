@@ -20,7 +20,7 @@ class Player(val name : String, var totalPoints : Int, val position : Int) {
     }
     fun playCard(card: PlayingCard) : PlayingCard{
         require(_hand.contains(card)){
-
+            "Player doesn't have card"
         }
         _hand.remove(card)
         return card

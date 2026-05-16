@@ -8,7 +8,6 @@ class Trick(val trumpSuit: Suit) {
         get() = _playedCards
     val leadSuit: Suit?
         get() = _playedCards.firstOrNull()?.card?.suit
-
     fun playCard(playerPosition: Int, card: PlayingCard){
         _playedCards.add(PlayedCard(playerPosition, card))
     }
