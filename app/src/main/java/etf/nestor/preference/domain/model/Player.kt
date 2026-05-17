@@ -1,34 +1,41 @@
 package etf.nestor.preference.domain.model
 
-class Player(val name : String, var totalPoints : Int, val position : Int) {
-    var tricksWon : Int = 0
+class Player(val name: String, val position: Int) {
+    var tricksWon: Int = 0
 
     private val _hand = mutableListOf<PlayingCard>()
-    val hand : List<PlayingCard>
+    val hand: List<PlayingCard>
         get() = _hand
-    fun addCard(card : PlayingCard){
+
+    fun addCard(card: PlayingCard) {
         _hand.add(card)
     }
-    fun addCards(cards : List<PlayingCard>){
+
+    fun addCards(cards: List<PlayingCard>) {
         _hand.addAll(cards)
     }
-    fun clearHand(){
+
+    fun clearHand() {
         _hand.clear()
     }
-    fun handSize() : Int{
+
+    fun handSize(): Int {
         return _hand.size
     }
-    fun playCard(card: PlayingCard) : PlayingCard{
-        require(_hand.contains(card)){
+
+    fun playCard(card: PlayingCard): PlayingCard {
+        require(_hand.contains(card)) {
             "Player doesn't have card"
         }
         _hand.remove(card)
         return card
     }
-    fun wonTrick(){
+
+    fun wonTrick() {
         tricksWon++
     }
-    fun gainPoints(inc : Int){
-        totalPoints += inc
+
+    fun resetTricks() {
+        tricksWon = 0
     }
 }
