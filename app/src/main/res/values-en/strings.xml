@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">Preference</string>
+
+    <!-- Main menu -->
+    <string name="main_singleplayer"> Singleplayer</string>
+    <string name="main_multiplayer"> Multiplayer</string>
+    <string name="main_settings" > Settings </string>
+    <!-- Setup screen -->
+    <string name="subtitle_singleplayer">Singleplayer</string>
+    <string name="label_starting_score">Starting score:</string>
+    <string name="score_option">%d points</string>
+    <string name="btn_start_game">Start game</string>
+
+    <!-- Player names -->
+    <string name="player_name_you">You</string>
+    <string name="player_name_bot1">Bot 1</string>
+    <string name="player_name_bot2">Bot 2</string>
+    <string name="player_n">Player %d</string>
+
+    <!-- Score bar -->
+    <string name="tricks_count">tricks: %d</string>
+
+    <!-- Score sheet dialog -->
+    <string name="btn_close">Close</string>
+    <string name="score_sheet_title">Score sheet — %s</string>
+    <string name="label_central_points">Central points:</string>
+    <string name="label_soups">Soups:</string>
+    <string name="no_soups">No soups</string>
+    <string name="vs_opponent">vs %s</string>
+
+    <!-- Bot hand -->
+    <string name="cards_left">%d cards</string>
+
+    <!-- Current trick -->
+    <string name="label_current_trick">Current trick</string>
+
+    <!-- Talon -->
+    <string name="label_talon">Talon</string>
+
+    <!-- Won tricks dialog -->
+    <string name="won_tricks_title">Won tricks — %s</string>
+    <string name="no_won_tricks">No won tricks.</string>
+    <string name="trick_n">Trick %d</string>
+
+    <!-- Player hand -->
+    <string name="your_cards">Your cards (%d)</string>
+    <string name="your_tricks_count">Tricks: %d</string>
+
+    <!-- Action area — bidding -->
+    <string name="label_bid">Bid:</string>
+    <string name="btn_pass">Pass</string>
+    <string name="btn_bid_n">Bid %d</string>
+
+    <!-- Action area — talon -->
+    <string name="btn_take_talon">Take talon</string>
+
+    <!-- Action area — discard -->
+    <string name="label_discard">Select 2 cards to discard (%d/2 selected):</string>
+    <string name="btn_confirm_discard">Discard selected cards</string>
+    <string name="hint_click_cards">Click cards below</string>
+
+    <!-- Action area — declare -->
+    <string name="label_declare_game">Declare game (minimum %d):</string>
+
+    <!-- Action area — follow -->
+    <string name="label_follow">Follow?</string>
+    <string name="btn_follow_yes">Join ✓</string>
+    <string name="btn_follow_no">Pass ✗</string>
+
+    <!-- Action area — playing -->
+    <string name="your_turn_play">Your turn — click the card you want to play</string>
+    <string name="bots_playing">Bots are playing...</string>
+
+    <!-- BidType names -->
+    <string name="bid_spades">♠ Spades</string>
+    <string name="bid_diamonds">♦ Diamonds</string>
+    <string name="bid_hearts">♥ Hearts</string>
+    <string name="bid_clubs">♣ Clubs</string>
+    <string name="bid_misere">Misere</string>
+    <string name="bid_sans">Sans</string>
+
+    <!-- Card back description (accessibility) -->
+    <string name="card_back_desc">Card back</string>
+
+    <!-- GameMessage strings -->
+    <string name="msg_loading">Loading…</string>
+    <string name="msg_new_round">New round. Bidding begins.</string>
+    <string name="msg_your_turn_bid">Your turn. Bid or say Pass.</string>
+    <string name="msg_took_talon">You took the talon. Discard 2 cards.</string>
+    <string name="msg_declare_game_prompt">Declare your game.</string>
+    <string name="msg_all_passed">Everyone passed — Refa!</string>
+    <string name="msg_trick_finished">Trick finished!</string>
+    <string name="msg_continuing">Continuing…</string>
+    <string name="msg_your_turn">Your turn.</string>
+    <string name="msg_you_played_card">You played a card.</string>
+    <string name="msg_nobody_follows">Nobody follows. Declarer plays alone and gets a penalty.</string>
+    <string name="msg_game_started">Game starts!</string>
+    <string name="msg_ask_follow">Do you follow? (Join / Pass)</string>
+    <string name="msg_you_won_bid">You won the bid with %d! Take the talon.</string>
+    <string name="msg_bot_won_bid">Bot %d won the bid.</string>
+    <string name="msg_bot_plays_misere">%s plays Misere. Everyone follows.</string>
+    <string name="msg_bot_plays_game">%s plays %s. Do you follow?</string>
+    <string name="msg_followers_join">Following: %s. Game begins!</string>
+    <string name="msg_bot_played_card">%s played a card.</string>
+    <string name="msg_round_won">Round over. %s won.</string>
+    <string name="msg_round_lost">Round over. %s lost.</string>
+    <string name="msg_illegal_move">Illegal move! You must follow suit. (%d legal cards)</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language:</string>
+    <string name="btn_back">Back</string>
+</resources>

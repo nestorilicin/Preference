@@ -8,6 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import etf.nestor.preference.R
+
 
 @Composable
 fun MenuScreen(
@@ -25,19 +28,19 @@ fun MenuScreen(
         Button(
             onClick = onSingleplayerClick
         ) {
-            Text("Singleplayer")
+            Text(stringResource(R.string.main_singleplayer))
         }
 
         Button(
             onClick = onMultiplayerClick
         ) {
-            Text("Multiplayer")
+            Text(stringResource(R.string.main_multiplayer))
         }
 
         Button(
             onClick = onSettingsClick
         ) {
-            Text("Settings")
+            Text(stringResource(R.string.main_settings))
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import etf.nestor.preference.ui.screen.MenuScreen
+import etf.nestor.preference.ui.screen.SettingsScreen
 import etf.nestor.preference.ui.screen.SinglePlayerGameScreen
 
 @Composable
@@ -14,18 +15,27 @@ fun AppNavHost(navController: NavHostController) {
         navController = navController, startDestination = Screen.Menu.route
     ) {
         composable(Screen.Menu.route) {
+            MenuScreen(
+                onSingleplayerClick = {
+                    navController.navigate(Screen.Game.route)
+                },
+                onMultiplayerClick = {
 
-            MenuScreen(onSingleplayerClick = {
-                navController.navigate(Screen.Game.route)
-            }, onMultiplayerClick = {
-
-            }, onSettingsClick = {
-
-            })
+                },
+                onSettingsClick = {
+                    navController.navigate(Screen.Settings.route)
+                }
+            )
         }
 
         composable(Screen.Game.route) {
             SinglePlayerGameScreen()
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
