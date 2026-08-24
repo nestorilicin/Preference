@@ -1,4 +1,4 @@
-package etf.nestor.preference.ui.screen.composables
+package etf.nestor.preference.ui.singleplayer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,10 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,51 +19,55 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.domain.game.GameSnapshot
+import etf.nestor.preference.ui.common.ScoreSheetDialog
 
 @Composable
-fun ScoreBar(state: GameSnapshot) {
+fun ScoreBar(state: GameSnapshot, viewModel: SingleplayerViewModel, compact: Boolean = false) {
+    val youFallback = stringResource(R.string.player_name_you)
     val names = listOf(
-        stringResource(R.string.player_name_you),
+        state.playerNames.getOrElse(0) { youFallback },
         stringResource(R.string.player_name_bot1),
         stringResource(R.string.player_name_bot2)
     )
-    var sheetDialogPlayer by remember { mutableStateOf<Int?>(null) }
+    // Levo bot koji sedi levo od igrača (2), u sredini igrač (0), desno bot koji sedi desno (1)
+    val order = listOf(2, 0, 1)
+    val sheetDialogPlayer by viewModel.sheetDialogPlayer.collectAsState()
 
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier.padding(
+                horizontal = if (compact) 8.dp else 16.dp,
+                vertical = if (compact) 2.dp else 8.dp
+            ),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            names.forEachIndexed { i, name ->
+            order.forEach { i ->
                 val sheet = state.scoreSheets[i]
                 val center = sheet?.center ?: 0
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.clickable { sheetDialogPlayer = i }
+                    modifier = Modifier.clickable { viewModel.openScoreSheet(i) }
                 ) {
                     Text(
-                        text = name,
+                        text = names[i],
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
                         text = "$center",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = if (compact) MaterialTheme.typography.labelLarge
+                                else MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = if (center <= 0)
                             MaterialTheme.colorScheme.error
                         else
                             MaterialTheme.colorScheme.onPrimaryContainer
                     )
-                    Text(
-                        text = stringResource(R.string.tricks_count, state.tricksWon[i]),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+
                 }
             }
         }
@@ -75,11 +77,10 @@ fun ScoreBar(state: GameSnapshot) {
     val dialogPlayer = sheetDialogPlayer
     if (dialogPlayer != null) {
         ScoreSheetDialog(
-            playerName = names[dialogPlayer],
+            playerPosition = dialogPlayer,
             sheet = state.scoreSheets[dialogPlayer],
             allNames = names,
-            onDismiss = { sheetDialogPlayer = null}
+            onDismiss = { viewModel.closeScoreSheet() }
         )
     }
 }
-

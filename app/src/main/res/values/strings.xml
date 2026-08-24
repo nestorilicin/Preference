@@ -10,6 +10,10 @@
     <string name="score_option">%d poena</string>
     <string name="btn_start_game">Započni partiju</string>
 
+    <!-- Singleplayer intro ekran -->
+    <string name="btn_continue_game">Nastavi partiju</string>
+    <string name="btn_new_game">Nova partija</string>
+
     <!-- Imena igrača -->
     <string name="player_name_you">Ti</string>
     <string name="player_name_bot1">Bot 1</string>
@@ -17,7 +21,7 @@
     <string name="player_n">Igrač %d</string>
 
     <!-- Score bar -->
-    <string name="tricks_count">stihovi: %d</string>
+    <string name="tricks_count">Štihovi: %d</string>
 
     <!-- Score sheet dialog -->
     <string name="btn_close">Zatvori</string>
@@ -28,22 +32,22 @@
     <string name="vs_opponent">vs %s</string>
 
     <!-- Bot ruka -->
-    <string name="cards_left">%d karta</string>
+    <string name="cards_left">%d karata</string>
 
-    <!-- Tekući stih -->
-    <string name="label_current_trick">Tekući stih</string>
+    <!-- Tekući štih -->
+    <string name="label_current_trick">Tekući štih</string>
 
     <!-- Kup -->
     <string name="label_talon">Kup</string>
 
     <!-- Won tricks dialog -->
-    <string name="won_tricks_title">Uzeti stihovi — %s</string>
-    <string name="no_won_tricks">Nema uzetih stihova.</string>
-    <string name="trick_n">Stih %d</string>
+    <string name="won_tricks_title">Uzeti štihovi — %s</string>
+    <string name="no_won_tricks">Nema uzetih štihova.</string>
+    <string name="trick_n">Štih %d</string>
 
     <!-- Karte igrača -->
     <string name="your_cards">Tvoje karte (%d)</string>
-    <string name="your_tricks_count">Stihovi: %d</string>
+    <string name="your_tricks_count">Štihovi: %d</string>
 
     <!-- Akcioni deo — licitiranje -->
     <string name="label_bid">Licitiraj:</string>
@@ -83,12 +87,12 @@
 
     <!-- GameMessage poruke -->
     <string name="msg_loading">Učitavanje…</string>
-    <string name="msg_new_round">Nova runda. Licitiranje počinje.</string>
+    <string name="msg_new_round">%s deli. Pita se: %s.</string>
     <string name="msg_your_turn_bid">Tvoj red. Licitiraj ili reci \'Dalje\'.</string>
     <string name="msg_took_talon">Uzeo si kup. Izbaci 2 karte.</string>
     <string name="msg_declare_game_prompt">Najavi igru.</string>
     <string name="msg_all_passed">Svi rekli \'Dalje\' — Refa!</string>
-    <string name="msg_trick_finished">Stih završen!</string>
+    <string name="msg_trick_finished">Štih završen!</string>
     <string name="msg_continuing">Nastavljamo…</string>
     <string name="msg_your_turn">Tvoj red.</string>
     <string name="msg_you_played_card">Odigrao si kartu.</string>
@@ -97,6 +101,7 @@
     <string name="msg_ask_follow">Da li pratiš? (Dodjem / Ne dodjem)</string>
     <string name="msg_you_won_bid">Pobedio si licitaciju sa %d! Uzmi kup.</string>
     <string name="msg_bot_won_bid">Bot %d je pobedio licitaciju.</string>
+    <string name="msg_bot_takes_talon">%s uzima kup.</string>
     <string name="msg_bot_plays_misere">%s igra Betl. Svi prate.</string>
     <string name="msg_bot_plays_game">%s igra %s. Pratiš?</string>
     <string name="msg_followers_join">Prate: %s. Igra počinje!</string>
@@ -104,9 +109,26 @@
     <string name="msg_round_won">Runda gotova. %s je pobedio.</string>
     <string name="msg_round_lost">Runda gotova. %s je izgubio.</string>
     <string name="msg_illegal_move">Ilegalan potez! Mora da pratiš boju. (%d legalnih karata)</string>
+    <string name="msg_bot_asked_bid">Pita se: %s.</string>
+    <string name="msg_bot_passes">%s kaže: Dalje.</string>
+    <string name="msg_bot_says_good">%s kaže: Dobar.</string>
+    <string name="msg_bot_follows">%s kaže: Dodjem.</string>
+    <string name="msg_game_over">Partija je gotova!</string>
+    <string name="game_over_good">Dobar %d</string>
+    <string name="game_over_bad">Loš %d</string>
+
+    <!-- Bot "govor" tokom licitacije (tekst pored bota) -->
+    <string name="bid_status_thinking">Razmišlja…</string>
+    <string name="bid_status_good">Dobar</string>
 
     <!-- Settings ekran -->
     <string name="settings_title">Podešavanja</string>
+    <string name="settings_player_name">Ime igrača:</string>
     <string name="settings_language">Jezik:</string>
     <string name="btn_back">Nazad</string>
+
+    <!-- Unos imena igrača -->
+    <string name="enter_name_title">Kako se zoveš?</string>
+    <string name="player_name_label">Ime</string>
+    <string name="btn_confirm">Potvrdi</string>
 </resources>

@@ -1,4 +1,4 @@
-package etf.nestor.preference.ui.screen.composables
+package etf.nestor.preference.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -6,8 +6,8 @@ package etf.nestor.preference.domain.game
  */
 class FollowingManager(declarerPosition: Int) {
 
-    val rightPlayer: Int = (declarerPosition + 2) % 3
-    val leftPlayer: Int = (declarerPosition + 1) % 3
+    val rightPlayer: Int = (declarerPosition + 1) % 3
+    val leftPlayer: Int = (declarerPosition + 2) % 3
 
     private val decisions = mutableMapOf<Int, Boolean>()
 

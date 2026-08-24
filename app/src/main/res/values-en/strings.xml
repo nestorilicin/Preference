@@ -11,6 +11,10 @@
     <string name="score_option">%d points</string>
     <string name="btn_start_game">Start game</string>
 
+    <!-- Singleplayer intro screen -->
+    <string name="btn_continue_game">Continue game</string>
+    <string name="btn_new_game">New game</string>
+
     <!-- Player names -->
     <string name="player_name_you">You</string>
     <string name="player_name_bot1">Bot 1</string>
@@ -84,7 +88,7 @@
 
     <!-- GameMessage strings -->
     <string name="msg_loading">Loading…</string>
-    <string name="msg_new_round">New round. Bidding begins.</string>
+    <string name="msg_new_round">%s deals. Asking: %s.</string>
     <string name="msg_your_turn_bid">Your turn. Bid or say Pass.</string>
     <string name="msg_took_talon">You took the talon. Discard 2 cards.</string>
     <string name="msg_declare_game_prompt">Declare your game.</string>
@@ -98,6 +102,7 @@
     <string name="msg_ask_follow">Do you follow? (Join / Pass)</string>
     <string name="msg_you_won_bid">You won the bid with %d! Take the talon.</string>
     <string name="msg_bot_won_bid">Bot %d won the bid.</string>
+    <string name="msg_bot_takes_talon">%s takes the talon.</string>
     <string name="msg_bot_plays_misere">%s plays Misere. Everyone follows.</string>
     <string name="msg_bot_plays_game">%s plays %s. Do you follow?</string>
     <string name="msg_followers_join">Following: %s. Game begins!</string>
@@ -105,9 +110,26 @@
     <string name="msg_round_won">Round over. %s won.</string>
     <string name="msg_round_lost">Round over. %s lost.</string>
     <string name="msg_illegal_move">Illegal move! You must follow suit. (%d legal cards)</string>
+    <string name="msg_bot_asked_bid">Asking: %s.</string>
+    <string name="msg_bot_passes">%s says: Pass.</string>
+    <string name="msg_bot_says_good">%s says: Good.</string>
+    <string name="msg_bot_follows">%s says: I\'m in.</string>
+    <string name="msg_game_over">Game over!</string>
+    <string name="game_over_good">Good %d</string>
+    <string name="game_over_bad">Bad %d</string>
+
+    <!-- Bot "speech" during bidding (text next to the bot) -->
+    <string name="bid_status_thinking">Thinking…</string>
+    <string name="bid_status_good">Good</string>
 
     <!-- Settings screen -->
     <string name="settings_title">Settings</string>
+    <string name="settings_player_name">Player name:</string>
     <string name="settings_language">Language:</string>
     <string name="btn_back">Back</string>
+
+    <!-- Player name entry -->
+    <string name="enter_name_title">What\'s your name?</string>
+    <string name="player_name_label">Name</string>
+    <string name="btn_confirm">Confirm</string>
 </resources>

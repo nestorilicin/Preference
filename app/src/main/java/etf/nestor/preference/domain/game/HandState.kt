@@ -61,4 +61,25 @@ class HandState(
     fun isFinished(): Boolean {
         return phase == HandPhase.FINISHED || finishedTricks.size == 10
     }
+
+    /**
+     * Direktno postavlja kompletno stanje ruke, bez provere uobičajenih faznih prelaza.
+     * Koristi se samo pri vraćanju sačuvane partije (Continue), gde se stanje već zna da je validno.
+     */
+    internal fun restoreState(
+        phase: HandPhase,
+        declarer: Int?,
+        trumpSuit: Suit?,
+        currentPlayer: Int,
+        currentTrick: Trick?,
+        finishedTricks: List<Trick>
+    ) {
+        this.phase = phase
+        this.declarer = declarer
+        this.trumpSuit = trumpSuit
+        this.currentPlayer = currentPlayer
+        this.currentTrick = currentTrick
+        _finishedTricks.clear()
+        _finishedTricks.addAll(finishedTricks)
+    }
 }

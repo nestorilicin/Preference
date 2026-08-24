@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import etf.nestor.preference.R
-import etf.nestor.preference.ui.screen.composables.SimpleSpinner
+import etf.nestor.preference.ui.common.SimpleSpinner
 import etf.nestor.preference.ui.viewmodel.SettingsViewModel
 
 @Composable
@@ -27,6 +28,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val language by viewModel.language.collectAsState()
+    val playerName by viewModel.playerName.collectAsState()
     val context = LocalContext.current
 
     Column(
@@ -39,6 +41,15 @@ fun SettingsScreen(
         Text(
             text = stringResource(R.string.settings_title),
             style = MaterialTheme.typography.headlineMedium
+        )
+
+        Text(text = stringResource(R.string.settings_player_name))
+
+        OutlinedTextField(
+            value = playerName,
+            onValueChange = { viewModel.setPlayerName(it) },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Text(text = stringResource(R.string.settings_language))
@@ -64,5 +75,4 @@ fun SettingsScreen(
         }
     }
 }
-
 
