@@ -72,13 +72,13 @@
 
     <!-- Akcioni deo — igranje -->
     <string name="your_turn_play">Tvoj red — klikni kartu koju hoćeš da odigraš</string>
-    <string name="bots_playing">Botovi igraju...</string>
+    <string name="bots_playing">Botovi igraju…</string>
 
     <!-- BidType nazivi -->
-    <string name="bid_spades">♠ Pik</string>
-    <string name="bid_diamonds">♦ Karo</string>
-    <string name="bid_hearts">♥ Herc</string>
-    <string name="bid_clubs">♣ Tref</string>
+    <string name="bid_spades">Pik</string>
+    <string name="bid_diamonds">Karo</string>
+    <string name="bid_hearts">Herc</string>
+    <string name="bid_clubs">Tref</string>
     <string name="bid_misere">Betl</string>
     <string name="bid_sans">Sans</string>
 
@@ -126,6 +126,29 @@
     <string name="settings_player_name">Ime igrača:</string>
     <string name="settings_language">Jezik:</string>
     <string name="btn_back">Nazad</string>
+
+    <!-- Settings ekran — slika profila i lokacija -->
+    <string name="settings_avatar">Slika profila:</string>
+    <string name="btn_take_photo">Uslikaj</string>
+    <string name="btn_retake_photo">Promeni sliku</string>
+    <string name="settings_location">Država:</string>
+    <string name="btn_refresh_location">Osveži lokaciju</string>
+    <string name="location_unknown">Nepoznato</string>
+
+    <!-- Sačuvane partije (Room) -->
+    <string name="btn_saved_games">Sačuvane partije</string>
+    <string name="saved_games_title">Sačuvane partije</string>
+    <string name="no_saved_games">Nema sačuvanih partija.</string>
+    <string name="btn_load_game">Učitaj</string>
+    <string name="btn_delete_game">Obriši</string>
+
+    <!-- Dijalog za izlazak iz partije -->
+    <string name="exit_game_title">Izlazak iz partije</string>
+    <string name="exit_game_message">Želiš li da sačuvaš ovu partiju pre izlaska?</string>
+    <string name="save_name_label">Ime partije</string>
+    <string name="btn_save_and_exit">Sačuvaj i izađi</string>
+    <string name="btn_exit_without_saving">Izađi bez čuvanja</string>
+    <string name="btn_cancel">Otkaži</string>
 
     <!-- Unos imena igrača -->
     <string name="enter_name_title">Kako se zoveš?</string>

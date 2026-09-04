@@ -73,13 +73,13 @@
 
     <!-- Action area — playing -->
     <string name="your_turn_play">Your turn — click the card you want to play</string>
-    <string name="bots_playing">Bots are playing...</string>
+    <string name="bots_playing">Bots are playing…</string>
 
     <!-- BidType names -->
-    <string name="bid_spades">♠ Spades</string>
-    <string name="bid_diamonds">♦ Diamonds</string>
-    <string name="bid_hearts">♥ Hearts</string>
-    <string name="bid_clubs">♣ Clubs</string>
+    <string name="bid_spades">Spades</string>
+    <string name="bid_diamonds">Diamonds</string>
+    <string name="bid_hearts">Hearts</string>
+    <string name="bid_clubs">Clubs</string>
     <string name="bid_misere">Misere</string>
     <string name="bid_sans">Sans</string>
 
@@ -127,6 +127,29 @@
     <string name="settings_player_name">Player name:</string>
     <string name="settings_language">Language:</string>
     <string name="btn_back">Back</string>
+
+    <!-- Settings screen — profile picture and location -->
+    <string name="settings_avatar">Profile picture:</string>
+    <string name="btn_take_photo">Take photo</string>
+    <string name="btn_retake_photo">Change photo</string>
+    <string name="settings_location">Country:</string>
+    <string name="btn_refresh_location">Refresh location</string>
+    <string name="location_unknown">Unknown</string>
+
+    <!-- Saved games (Room) -->
+    <string name="btn_saved_games">Saved games</string>
+    <string name="saved_games_title">Saved games</string>
+    <string name="no_saved_games">No saved games.</string>
+    <string name="btn_load_game">Load</string>
+    <string name="btn_delete_game">Delete</string>
+
+    <!-- Exit game dialog -->
+    <string name="exit_game_title">Exit game</string>
+    <string name="exit_game_message">Do you want to save this game before exiting?</string>
+    <string name="save_name_label">Game name</string>
+    <string name="btn_save_and_exit">Save and exit</string>
+    <string name="btn_exit_without_saving">Exit without saving</string>
+    <string name="btn_cancel">Cancel</string>
 
     <!-- Player name entry -->
     <string name="enter_name_title">What\'s your name?</string>

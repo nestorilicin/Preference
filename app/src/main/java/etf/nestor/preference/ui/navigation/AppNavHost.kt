@@ -2,13 +2,16 @@ package etf.nestor.preference.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import etf.nestor.preference.ui.screen.MenuScreen
-import etf.nestor.preference.ui.screen.SettingsScreen
-import etf.nestor.preference.ui.singleplayer.SingleplayerIntroScreen
-import etf.nestor.preference.ui.singleplayer.SinglePlayerGameScreen
-import etf.nestor.preference.ui.singleplayer.SingleplayerStartMode
+import androidx.navigation.navArgument
+import etf.nestor.preference.ui.screens.MenuScreen
+import etf.nestor.preference.ui.screens.SettingsScreen
+import etf.nestor.preference.ui.screens.SavedGamesScreen
+import etf.nestor.preference.ui.screens.SingleplayerIntroScreen
+import etf.nestor.preference.ui.screens.SinglePlayerGameScreen
+import etf.nestor.preference.ui.screens.SingleplayerStartMode
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -33,16 +36,44 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.SingleplayerIntro.route) {
             SingleplayerIntroScreen(
                 onNewGame = { navController.navigate(Screen.Game.route) },
-                onContinue = { navController.navigate(Screen.GameContinue.route) }
+                onContinue = { navController.navigate(Screen.GameContinue.route) },
+                onSavedGames = { navController.navigate(Screen.SavedGames.route) }
             )
         }
 
         composable(Screen.Game.route) {
-            SinglePlayerGameScreen(startMode = SingleplayerStartMode.NEW)
+            SinglePlayerGameScreen(
+                startMode = SingleplayerStartMode.NEW,
+                onExit = { navController.popBackStack() }
+            )
         }
 
         composable(Screen.GameContinue.route) {
-            SinglePlayerGameScreen(startMode = SingleplayerStartMode.CONTINUE)
+            SinglePlayerGameScreen(
+                startMode = SingleplayerStartMode.CONTINUE,
+                onExit = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            Screen.GameLoad.route,
+            arguments = listOf(navArgument("id") { type = NavType.LongType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getLong("id")
+            if (id != null) {
+                SinglePlayerGameScreen(
+                    startMode = SingleplayerStartMode.LOAD,
+                    loadId = id,
+                    onExit = { navController.popBackStack() }
+                )
+            }
+        }
+
+        composable(Screen.SavedGames.route) {
+            SavedGamesScreen(
+                onBack = { navController.popBackStack() },
+                onLoad = { id -> navController.navigate(Screen.GameLoad.createRoute(id)) }
+            )
         }
 
         composable(Screen.Settings.route) {

@@ -1,6 +1,9 @@
 package etf.nestor.preference.domain.bidding
 
-enum class BidAction() {
+import kotlinx.serialization.Serializable
+
+@Serializable
+enum class BidAction {
     PASS,
     MINE,
     TWO,

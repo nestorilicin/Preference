@@ -6,6 +6,7 @@ import etf.nestor.preference.domain.model.PlayedCard
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.domain.model.Suit
 import etf.nestor.preference.domain.scoring.ScoreSheet
+import kotlinx.serialization.Serializable
 
 /**
  * Kompletan snimak stanja partije — dovoljno podataka da [SingleplayerFacade] u potpunosti
@@ -13,8 +14,10 @@ import etf.nestor.preference.domain.scoring.ScoreSheet
  * razloga ne izlažu kroz [GameSnapshot]).
  *
  * Koristi se za Continue funkcionalnost: [SingleplayerFacade.captureSaveState] je pravi,
- * a [GameSaveRepository] (data sloj) ga čuva/učitava. Domen ostaje čist — nema Android zavisnosti.
+ * a [GameSaveRepository] (data sloj) ga čuva/učitava kao JSON (kotlinx.serialization).
+ * Domen ostaje čist — nema Android zavisnosti.
  */
+@Serializable
 data class SavedGameState(
     // Imena igrača po poziciji — pozicija 0 je čovek
     val playerNames: List<String>,

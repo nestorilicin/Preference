@@ -1,5 +1,8 @@
 package etf.nestor.preference.domain.bidding
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class BidType(val strength : Int) {
     SPADES(2),
     DIAMONDS(3),
