@@ -18,6 +18,12 @@ interface SavedGameDao {
     @Query("SELECT * FROM saved_games WHERE name IS NULL LIMIT 1")
     suspend fun getAutoBackup(): SavedGameEntity?
 
+    @Query("SELECT EXISTS(SELECT 1 FROM saved_games WHERE name IS NULL)")
+    fun observeHasAutoBackup(): Flow<Boolean>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM saved_games WHERE name = :name AND savedAt = :savedAt)")
+    suspend fun existsByNameAndSavedAt(name: String, savedAt: Long): Boolean
+
     @Insert
     suspend fun insert(entity: SavedGameEntity): Long
 

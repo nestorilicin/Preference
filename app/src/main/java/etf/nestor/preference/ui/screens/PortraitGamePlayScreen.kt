@@ -3,29 +3,23 @@ package etf.nestor.preference.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import etf.nestor.preference.R
 import etf.nestor.preference.domain.game.GameSnapshot
 import etf.nestor.preference.domain.game.HandPhase
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.ui.composables.ActionArea
-import etf.nestor.preference.ui.composables.BotHandArea
 import etf.nestor.preference.ui.composables.HAND_CARD_H
 import etf.nestor.preference.ui.composables.HAND_CARD_W
 import etf.nestor.preference.ui.composables.PlayerHandSection
@@ -56,65 +50,37 @@ fun PortraitGamePlayScreen(
             .systemBarsPadding()
     ) {
 
-        // Gornji bar sa poenima i stihovima
+        // Gornji bar sa poenima, stihovima i botovima (imenom + "govorom" tokom licitacije)
         ScoreBar(state, viewModel)
 
-        // Botovi + sto (weight(1f) — zauzima sav preostali prostor iznad poruke/akcija)
-        Column(
+        // Tekući stih ILI kup — nikad oba istovremeno (kup je na stolu samo tokom
+        // licitacije/uzimanja, kada još nema odigranih karata u stihu), pa se prikazuje
+        // tačno jedno od to dvoje, centrirano u preostalom prostoru iznad poruke/akcija.
+        // Karte kupa su iste veličine kao karte u ruci igrača. Kup je okrenut licem dole
+        // tokom licitacije, otkriven tokom TALON_PICKUP (samo igraču koji ga uzima)
+        Box(
             modifier = Modifier
                 .weight(1f)
+                .fillMaxWidth()
                 .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentAlignment = Alignment.Center
         ) {
-            // Botovi — levo bot koji sedi levo od igrača (2), desno bot koji sedi desno (1)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BotHandArea(
-                    name = stringResource(R.string.player_name_bot2),
-                    position = 2,
+            if (state.phase == HandPhase.BIDDING || state.phase == HandPhase.TALON_PICKUP) {
+                TalonArea(
                     state = state,
-                    modifier = Modifier.weight(1f)
+                    cardW = HAND_CARD_W,
+                    cardH = HAND_CARD_H,
+                    gap = 8.dp,
+                    fillWidth = false
                 )
-                Spacer(Modifier.width(8.dp))
-                BotHandArea(
-                    name = stringResource(R.string.player_name_bot1),
-                    position = 1,
-                    state = state,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
-            // Tekući stih ILI kup — nikad oba istovremeno (kup je na stolu samo tokom
-            // licitacije/uzimanja, kada još nema odigranih karata u stihu), pa se prikazuje
-            // tačno jedno od to dvoje, centrirano i horizontalno i vertikalno u preostalom
-            // prostoru (koji je sada konstantan — vidi napomenu ispod uz poruku/akcije).
-            // Karte kupa su iste veličine kao karte u ruci igrača. Kup je okrenut licem dole
-            // tokom licitacije, otkriven tokom TALON_PICKUP (samo igraču koji ga uzima)
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                if (state.phase == HandPhase.BIDDING || state.phase == HandPhase.TALON_PICKUP) {
-                    TalonArea(
-                        state = state,
-                        cardW = HAND_CARD_W,
-                        cardH = HAND_CARD_H,
-                        gap = 8.dp,
-                        fillWidth = false
-                    )
-                } else {
-                    TrickArea(state)
-                }
+            } else {
+                TrickArea(state)
             }
         }
 
         // Poruka + akcioni deo — zajedno u koloni sa MINIMALNOM fiksnom visinom, ista bez
         // obzira na fazu (ActionArea nekad ne prikazuje ništa, nekad ceo red dugmadi).
-        // Time preostali prostor iznad (botovi+sto/kup) ostaje konstantan i kup se
+        // Time preostali prostor iznad (sto/kup) ostaje konstantan i kup se
         // više ne pomera kad se karte "okrenu", a ostaje lepo centriran
         Column(
             modifier = Modifier

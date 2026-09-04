@@ -47,6 +47,7 @@ fun SettingsScreen(
     val language by viewModel.language.collectAsState()
     val playerName by viewModel.playerName.collectAsState()
     val avatarPath by viewModel.avatarPath.collectAsState()
+    val avatarVersion by viewModel.avatarVersion.collectAsState()
     val country by viewModel.country.collectAsState()
     val context = LocalContext.current
 
@@ -106,7 +107,7 @@ fun SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                val avatarBitmap = remember(avatarPath) {
+                val avatarBitmap = remember(avatarPath, avatarVersion) {
                     avatarPath?.let { BitmapFactory.decodeFile(it)?.asImageBitmap() }
                 }
                 if (avatarBitmap != null) {

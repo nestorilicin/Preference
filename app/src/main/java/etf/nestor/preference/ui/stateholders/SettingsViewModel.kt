@@ -35,6 +35,11 @@ class SettingsViewModel @Inject constructor(
     private val _avatarPath = MutableStateFlow(playerPreferences.getAvatarPath())
     val avatarPath: StateFlow<String?> = _avatarPath.asStateFlow()
 
+    // Slika profila se uvek čuva pod istim imenom fajla, pa se avatarPath ne bi promenio kad se
+    // slika zameni — ova verzija se uveća pri svakom čuvanju da ekran zna da ponovo učita sliku.
+    private val _avatarVersion = MutableStateFlow(0)
+    val avatarVersion: StateFlow<Int> = _avatarVersion.asStateFlow()
+
     private val _country = MutableStateFlow(playerPreferences.getCountry())
     val country: StateFlow<String?> = _country.asStateFlow()
 
@@ -48,12 +53,11 @@ class SettingsViewModel @Inject constructor(
         playerPreferences.setName(name)
     }
 
-    /** Snima novu profilnu sliku (rezultat sa kamere). */
     fun setAvatar(bitmap: Bitmap) {
         _avatarPath.value = playerPreferences.saveAvatar(bitmap)
+        _avatarVersion.value++
     }
 
-    /** Očitava državu preko lokacije (GPS/mreža). Ne radi ništa ako dozvola nije data. */
     fun refreshCountry() {
         viewModelScope.launch {
             val result = fetchUserCountry(getApplication())

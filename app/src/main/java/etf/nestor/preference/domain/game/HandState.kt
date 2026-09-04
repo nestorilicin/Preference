@@ -62,10 +62,7 @@ class HandState(
         return phase == HandPhase.FINISHED || finishedTricks.size == 10
     }
 
-    /**
-     * Direktno postavlja kompletno stanje ruke, bez provere uobičajenih faznih prelaza.
-     * Koristi se samo pri vraćanju sačuvane partije (Continue), gde se stanje već zna da je validno.
-     */
+
     internal fun restoreState(
         phase: HandPhase,
         declarer: Int?,

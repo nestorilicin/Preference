@@ -143,6 +143,29 @@
     <string name="btn_load_game">Load</string>
     <string name="btn_delete_game">Delete</string>
 
+    <!-- Import/export and upload/download of games -->
+    <string name="btn_export_game">Export</string>
+    <string name="btn_upload_game">Upload</string>
+    <string name="btn_import_game">Import</string>
+    <string name="btn_download_game">Download</string>
+    <string name="password_label">Password</string>
+    <string name="upload_password_title">Enter a password to upload this game</string>
+    <string name="download_password_title">Enter the password of the game to download</string>
+    <string name="server_partije_title">Games on the server</string>
+    <string name="no_server_partije">No games on the server.</string>
+    <string name="msg_export_success">Game exported.</string>
+    <string name="msg_export_failed">Export failed.</string>
+    <string name="msg_import_success">Game imported.</string>
+    <string name="msg_import_failed">Import failed — invalid file.</string>
+    <string name="msg_import_duplicate">That game was already imported.</string>
+    <string name="msg_upload_success">Game uploaded to the server.</string>
+    <string name="msg_upload_failed">Upload failed.</string>
+    <string name="msg_upload_duplicate">A game with that name already exists on the server.</string>
+    <string name="msg_download_success">Game downloaded from the server.</string>
+    <string name="msg_download_failed">Wrong password or game not found.</string>
+    <string name="msg_download_duplicate">That game was already downloaded.</string>
+    <string name="msg_server_unavailable">Server is not running or unreachable.</string>
+
     <!-- Exit game dialog -->
     <string name="exit_game_title">Exit game</string>
     <string name="exit_game_message">Do you want to save this game before exiting?</string>

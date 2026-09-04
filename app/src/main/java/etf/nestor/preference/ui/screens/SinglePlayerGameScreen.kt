@@ -12,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
 
-// ─── Composable entry point ──────────────────────────────────────────────
-
 enum class SingleplayerStartMode { NEW, CONTINUE, LOAD }
 
 @Composable
@@ -25,8 +23,6 @@ fun SinglePlayerGameScreen(
 ) {
     val isGameStarted by viewModel.isGameStarted.collectAsState()
 
-    // Ako se ekranu pristupilo preko Continue ili učitavanja sačuvane partije, odmah učitaj
-    // umesto da se prikaže ekran za podešavanje nove partije
     LaunchedEffect(Unit) {
         when (startMode) {
             SingleplayerStartMode.CONTINUE -> viewModel.continueGame()

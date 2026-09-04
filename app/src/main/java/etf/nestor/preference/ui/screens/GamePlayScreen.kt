@@ -27,7 +27,16 @@ fun GamePlayScreen(state: GameSnapshot, viewModel: SingleplayerViewModel, onExit
     var showExitDialog by remember { mutableStateOf(false) }
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    BackHandler { showExitDialog = true }
+    BackHandler {
+        if (viewModel.isLoadedFromSavedGame) {
+            // Partija je učitana sa ekrana "Sačuvane partije" — nema dijaloga, tiho se prepiše
+            // ista sačuvana partija i vraća se direktno na uvodni singleplayer ekran.
+            viewModel.exitLoadedSavedGame()
+            onExit()
+        } else {
+            showExitDialog = true
+        }
+    }
 
     LaunchedEffect(state.phase) {
         selectedCards = emptySet()
@@ -77,6 +86,7 @@ fun GamePlayScreen(state: GameSnapshot, viewModel: SingleplayerViewModel, onExit
 
     if (showExitDialog) {
         ExitGameDialog(onDismiss = { showExitDialog = false }, onExitWithoutSaving = {
+            viewModel.exitWithoutSaving()
             showExitDialog = false
             onExit()
         }, onSaveAndExit = { name ->

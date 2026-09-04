@@ -20,10 +20,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import etf.nestor.preference.R
 import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
 
-/**
- * Ekran pre početka singleplayer partije: Nastavi (ako postoji automatski backup), Nova partija,
- * ili pregled ručno sačuvanih partija.
- */
 @Composable
 fun SingleplayerIntroScreen(
     onNewGame: () -> Unit,

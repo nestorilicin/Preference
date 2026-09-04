@@ -12,13 +12,16 @@ enum class BidAction {
     FIVE,
     SIX,
     SEVEN;
-    fun isNumberBid() : Boolean {
+
+    fun isNumberBid(): Boolean {
         return this.ordinal > 1
     }
-    fun isCheck() : Boolean {
+
+    fun isCheck(): Boolean {
         return this == PASS
     }
-    fun isMine() : Boolean {
+
+    fun isMine(): Boolean {
         return this == MINE
     }
 }

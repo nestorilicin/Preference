@@ -92,4 +92,8 @@ dependencies {
     // Hilt + WorkManager
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
+
+    // Retrofit (dohvatanje/slanje partija sa Ktor servera)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson.converter)
 }

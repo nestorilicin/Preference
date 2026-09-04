@@ -21,7 +21,6 @@ class GameState(val players: List<Player>, start: Int) {
         dealerPosition = (dealerPosition + 1) % 3
     }
 
-    /** Postavlja pozciju delioca direktno — koristi se samo pri vraćanju sačuvane partije (Continue). */
     internal fun restoreDealerPosition(position: Int) {
         dealerPosition = position
     }

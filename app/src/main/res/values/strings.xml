@@ -142,6 +142,29 @@
     <string name="btn_load_game">Učitaj</string>
     <string name="btn_delete_game">Obriši</string>
 
+    <!-- Import/export i upload/download partija -->
+    <string name="btn_export_game">Izvezi</string>
+    <string name="btn_upload_game">Otpremi</string>
+    <string name="btn_import_game">Uvezi</string>
+    <string name="btn_download_game">Preuzmi</string>
+    <string name="password_label">Lozinka</string>
+    <string name="upload_password_title">Unesi lozinku za otpremanje partije</string>
+    <string name="download_password_title">Unesi lozinku partije koju preuzimaš</string>
+    <string name="server_partije_title">Partije na serveru</string>
+    <string name="no_server_partije">Nema partija na serveru.</string>
+    <string name="msg_export_success">Partija izvezena.</string>
+    <string name="msg_export_failed">Izvoz partije nije uspeo.</string>
+    <string name="msg_import_success">Partija uvezena.</string>
+    <string name="msg_import_failed">Uvoz nije uspeo — fajl nije validan.</string>
+    <string name="msg_import_duplicate">Ta partija je već uvezena.</string>
+    <string name="msg_upload_success">Partija otpremljena na server.</string>
+    <string name="msg_upload_failed">Otpremanje nije uspelo.</string>
+    <string name="msg_upload_duplicate">Partija sa tim imenom već postoji na serveru.</string>
+    <string name="msg_download_success">Partija preuzeta sa servera.</string>
+    <string name="msg_download_failed">Pogrešna lozinka ili partija nije pronađena.</string>
+    <string name="msg_download_duplicate">Ta partija je već preuzeta.</string>
+    <string name="msg_server_unavailable">Server nije upaljen ili nije dostupan.</string>
+
     <!-- Dijalog za izlazak iz partije -->
     <string name="exit_game_title">Izlazak iz partije</string>
     <string name="exit_game_message">Želiš li da sačuvaš ovu partiju pre izlaska?</string>

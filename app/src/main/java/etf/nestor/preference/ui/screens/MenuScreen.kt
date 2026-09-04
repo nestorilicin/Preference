@@ -29,7 +29,6 @@ fun MenuScreen(
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     val playerName by settingsViewModel.playerName.collectAsState()
-    // TODO PROMENI EKRANE
     AppScreen(title = stringResource(R.string.app_name)) { innerPadding ->
         Column(
             modifier = Modifier

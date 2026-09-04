@@ -1,9 +1,5 @@
 package etf.nestor.preference.domain.game
 
-/**
- * Upravljanje fazom pracenja (Dodjem / Ne dodjem).
- * Prvo se pita igrac sa desne strane deklaranta, zatim sa leve.
- */
 class FollowingManager(declarerPosition: Int) {
 
     val rightPlayer: Int = (declarerPosition + 1) % 3

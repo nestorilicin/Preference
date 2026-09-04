@@ -33,7 +33,7 @@ class BiddingManager(val firstPlayer: Int) {
         require(value > currentHighestBid) {
             "Bid must be bigger"
         }
-        require(value < currentHighestBid + 2){
+        require(value < currentHighestBid + 2) {
             "Bid cannot skip values"
         }
         currentHighestBid = value

@@ -3,9 +3,12 @@ package etf.nestor.preference.ui.stateholders
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import etf.nestor.preference.data.AddGameResult
 import etf.nestor.preference.data.GameSaveRepository
 import etf.nestor.preference.data.PlayerPreferences
 import etf.nestor.preference.data.SavedGameSummary
+import etf.nestor.preference.data.UploadResult
+import etf.nestor.preference.data.network.PartijaSummary
 import etf.nestor.preference.domain.bidding.BidAction
 import etf.nestor.preference.domain.bidding.BidType
 import etf.nestor.preference.domain.game.GameMessage
@@ -40,41 +43,40 @@ class SingleplayerViewModel @Inject constructor(
     private val _gameState = MutableStateFlow<GameSnapshot?>(null)
     val gameState: StateFlow<GameSnapshot?> = _gameState.asStateFlow()
 
-    // Profilna slika i država igrača — postavljaju se u podešavanjima, prikazuju se u ScoreBar-u
     private val _avatarPath = MutableStateFlow(playerPreferences.getAvatarPath())
     val avatarPath: StateFlow<String?> = _avatarPath.asStateFlow()
 
     private val _country = MutableStateFlow(playerPreferences.getCountry())
     val country: StateFlow<String?> = _country.asStateFlow()
 
-    // Koja igračeva tabela poena je otvorena u dijalogu (null = nijedna)
     private val _sheetDialogPlayer = MutableStateFlow<Int?>(null)
     val sheetDialogPlayer: StateFlow<Int?> = _sheetDialogPlayer.asStateFlow()
 
-    // Da li postoji automatski backup koji može da se nastavi (Continue) — puni se asinhrono,
-    // jer je Room baza sad izvor istine umesto sinhronih SharedPreferences
-    private val _hasSavedGame = MutableStateFlow(false)
-    val hasSavedGame: StateFlow<Boolean> = _hasSavedGame.asStateFlow()
+    // Reaktivno iz baze — radi ispravno bez obzira na to koja instanca ViewModel-a (svaki ekran
+    // ima svoju, jer je hiltViewModel() vezan za NavBackStackEntry) je poslednja promenila stanje
+    // automatskog backup-a (sačuvala ga, obrisala ga pri izlasku, ili ga prepisala igranjem).
+    val hasSavedGame: StateFlow<Boolean> =
+        gameSaveRepository.observeHasAutoBackup()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    // Lista ručno sačuvanih partija (sa imenom koje je igrač uneo) — za ekran "Sačuvane partije"
     val savedGames: StateFlow<List<SavedGameSummary>> =
         gameSaveRepository.observeSavedGames()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private var facade: SingleplayerFacade? = null
 
-    init {
-        viewModelScope.launch {
-            _hasSavedGame.value = gameSaveRepository.hasAutoBackup()
-        }
-    }
+    // Id ručno sačuvane partije iz koje je tekuća sesija učitana (loadGame) — null ako je nova
+    // partija ili nastavak iz automatskog backup-a. Dok je postavljen, izlazak iz partije ne
+    // prikazuje dijalog nego tiho prepiše baš tu sačuvanu partiju (vidi exitLoadedSavedGame).
+    private var loadedSavedGameId: Long? = null
+    val isLoadedFromSavedGame: Boolean get() = loadedSavedGameId != null
 
     fun selectStartScore(score: Int) {
         _selectedStartScore.value = score
     }
 
-    /** Počinje potpuno novu partiju. */
     fun startGame() {
+        loadedSavedGameId = null
         launchFacade(
             SingleplayerFacade(
                 playerName = playerPreferences.getName().ifBlank { "Igrač" },
@@ -84,8 +86,8 @@ class SingleplayerViewModel @Inject constructor(
         )
     }
 
-    /** Nastavlja partiju iz automatskog backup-a. Ako ne postoji, počinje novu. */
     fun continueGame() {
+        loadedSavedGameId = null
         viewModelScope.launch {
             val saved = gameSaveRepository.loadAutoBackup()
             if (saved != null) {
@@ -96,17 +98,16 @@ class SingleplayerViewModel @Inject constructor(
         }
     }
 
-    /** Učitava ručno sačuvanu partiju po njenom id-u (bira se na ekranu "Sačuvane partije"). */
     fun loadGame(id: Long) {
         viewModelScope.launch {
             val saved = gameSaveRepository.loadNamed(id)
             if (saved != null) {
+                loadedSavedGameId = id
                 launchFacade(SingleplayerFacade(scope = viewModelScope, savedState = saved))
             }
         }
     }
 
-    /** Ručno čuva tekuću partiju pod unetim imenom (pri izlasku) — ne dira automatski backup. */
     fun saveNamed(name: String) {
         val f = facade ?: return
         val finalName = name.ifBlank { defaultSaveName() }
@@ -117,6 +118,48 @@ class SingleplayerViewModel @Inject constructor(
 
     fun deleteSavedGame(id: Long) {
         viewModelScope.launch { gameSaveRepository.deleteSavedGame(id) }
+    }
+
+    /** Vraća JSON sadržaj partije za export u fajl (npr. da se upiše u Uri iz file pickera). */
+    fun exportSavedGame(id: Long, onResult: (json: String?) -> Unit) {
+        viewModelScope.launch { onResult(gameSaveRepository.exportToJson(id)) }
+    }
+
+    /** Uvozi partiju iz sadržaja JSON fajla (SUCCESS / DUPLICATE ako već postoji / FAILED). */
+    fun importSavedGame(jsonText: String, onResult: (AddGameResult) -> Unit) {
+        viewModelScope.launch { onResult(gameSaveRepository.importFromJson(jsonText)) }
+    }
+
+    /** Otprema (upload) sačuvanu partiju na Ktor server, zaštićenu unetom lozinkom. */
+    fun uploadSavedGame(id: Long, password: String, onResult: (UploadResult) -> Unit) {
+        viewModelScope.launch { onResult(gameSaveRepository.uploadToServer(id, password)) }
+    }
+
+    /** Učitava listu partija sa servera (id + ime) — za prikaz u dijalogu pre preuzimanja. */
+    fun listServerPartije(onResult: (List<PartijaSummary>?) -> Unit) {
+        viewModelScope.launch { onResult(gameSaveRepository.listServerPartije()) }
+    }
+
+    /** Preuzima (download) sa Ktor servera partiju sa datim id-jem (SUCCESS / DUPLICATE / FAILED / SERVER_UNAVAILABLE). */
+    fun downloadSavedGame(id: Int, password: String, onResult: (AddGameResult) -> Unit) {
+        viewModelScope.launch { onResult(gameSaveRepository.downloadFromServer(id, password)) }
+    }
+
+    /** Igrač je svesno izabrao izlazak bez čuvanja — obriši i automatski backup, ne samo ekran. */
+    fun exitWithoutSaving() {
+        viewModelScope.launch { gameSaveRepository.clearAutoBackup() }
+    }
+
+    /**
+     * Tiho izlazi iz partije učitane sa ekrana "Sačuvane partije" — prepisuje baš tu sačuvanu
+     * partiju tekućim stanjem, bez dijaloga za čuvanje.
+     */
+    fun exitLoadedSavedGame() {
+        val f = facade ?: return
+        val id = loadedSavedGameId ?: return
+        viewModelScope.launch {
+            gameSaveRepository.saveOverExisting(id, f.captureSaveState())
+        }
     }
 
     private fun defaultSaveName(): String =
@@ -130,20 +173,14 @@ class SingleplayerViewModel @Inject constructor(
                 _gameState.value = snapshot
 
                 if (snapshot.gameOver) {
-                    // Partija je gotova — nema šta da se nastavlja, obriši automatski backup
                     gameSaveRepository.clearAutoBackup()
                 } else {
-                    // Partija se čuva posle svake promene stanja — tako da, bez obzira na koji
-                    // način korisnik izađe iz igre (nazad, gašenje aplikacije...), Continue uvek
-                    // vraća poslednje poznato stanje.
                     gameSaveRepository.saveAutoBackup(f.captureSaveState())
                 }
 
-                // Čim se ruka završi, ako je igrač učestvovao u njoj (bio deklarant ili se
-                // pridružio kao pratilac), automatski mu otvori tabelu poena
                 if (snapshot.message is GameMessage.RoundFinished) {
                     val humanPlayed = snapshot.declarer == SingleplayerFacade.HUMAN ||
-                        snapshot.followStatus[SingleplayerFacade.HUMAN] == true
+                            snapshot.followStatus[SingleplayerFacade.HUMAN] == true
                     if (humanPlayed) _sheetDialogPlayer.value = SingleplayerFacade.HUMAN
                 }
             }

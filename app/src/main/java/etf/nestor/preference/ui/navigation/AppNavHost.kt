@@ -64,7 +64,10 @@ fun AppNavHost(navController: NavHostController) {
                 SinglePlayerGameScreen(
                     startMode = SingleplayerStartMode.LOAD,
                     loadId = id,
-                    onExit = { navController.popBackStack() }
+                    // Izlazak odavde je uvek tih (partija se prepiše bez dijaloga — vidi
+                    // GamePlayScreen), pa se vraća pravo na uvodni ekran, preskačući
+                    // "Sačuvane partije" na koje se inače ne bi imalo smisla vratiti.
+                    onExit = { navController.popBackStack(Screen.SingleplayerIntro.route, false) }
                 )
             }
         }
