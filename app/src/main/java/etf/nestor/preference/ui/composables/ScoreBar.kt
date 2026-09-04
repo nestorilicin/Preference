@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.domain.bidding.BotBidStatus
@@ -36,6 +38,13 @@ import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
 
 
 private val BID_BUBBLE_HEIGHT = 16.dp
+
+// Fiksna širina bot kolone — bez ovoga se kolona širi/skuplja u zavisnosti od trenutnog teksta
+// licitacije ("Razmišlja…" je znatno šire od "Dobar"/"Dalje"), pa cela ScoreBar (raspoređena sa
+// SpaceEvenly) "skače" svaki put kad bot promeni status. Širina je odmerena da stane i najduži
+// mogući tekst (ime + "Razmišlja…" u compact režimu).
+private val BOT_COLUMN_WIDTH = 76.dp
+private val BOT_COLUMN_WIDTH_COMPACT = 108.dp
 
 @Composable
 fun ScoreBar(
@@ -192,7 +201,9 @@ private fun BotScoreColumn(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable(onClick = onClick)
+        modifier = Modifier
+            .width(if (compact) BOT_COLUMN_WIDTH_COMPACT else BOT_COLUMN_WIDTH)
+            .clickable(onClick = onClick)
     ) {
         if (compact) {
             Text(
@@ -200,7 +211,8 @@ private fun BotScoreColumn(
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
-                maxLines = 1
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         } else {
             NameText(name)
@@ -253,6 +265,7 @@ private fun BotBidBubble(status: BotBidStatus, modifier: Modifier = Modifier) {
         fontStyle = if (status == BotBidStatus.Thinking) FontStyle.Italic else FontStyle.Normal,
         color = MaterialTheme.colorScheme.primary,
         maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
         modifier = modifier
     )
 }

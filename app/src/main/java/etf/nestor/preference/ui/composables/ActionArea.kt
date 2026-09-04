@@ -4,20 +4,20 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
@@ -28,50 +28,53 @@ import etf.nestor.preference.domain.game.HandPhase
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
 
+private val GROUP_BUTTON_WIDTH = 120.dp
+
 @Composable
 fun ActionArea(
     state: GameSnapshot,
     viewModel: SingleplayerViewModel,
     selectedCards: Set<PlayingCard>,
     onDiscardConfirm: () -> Unit,
-    contentPadding: Dp = 12.dp
+    contentPadding: Dp = 12.dp,
+    verticalButtons: Boolean = false
 ) {
-    if (!state.isHumanTurn && state.phase != HandPhase.PLAYING) return
+    val hasButtons = state.isHumanTurn && when (state.phase) {
+        HandPhase.BIDDING, HandPhase.TALON_PICKUP, HandPhase.TRUMP_DECLARATION, HandPhase.FOLLOW -> true
+        HandPhase.DISCARDING -> selectedCards.size == 2
+        else -> false
+    }
+    if (!hasButtons) return
 
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(contentPadding)) {
+        Column(modifier = Modifier.padding(contentPadding).fillMaxWidth()) {
             when (state.phase) {
 
                 HandPhase.BIDDING -> {
-                    if (state.isHumanTurn) {
-                        Text(
-                            stringResource(R.string.label_bid),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                    ButtonGroup(vertical = verticalButtons) {
+                        GroupButton(
+                            text = stringResource(R.string.btn_pass),
+                            onClick = { viewModel.bid(BidAction.PASS) },
+                            outlined = true
                         )
-                        Spacer(Modifier.height(8.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            OutlinedButton(onClick = { viewModel.bid(BidAction.PASS) }) {
-                                Text(stringResource(R.string.btn_pass))
-                            }
-                            val nextBidValue = state.biddingHighestBid + 1
-                            if (nextBidValue in 2..7) {
-                                val nextBidAction = bidActionFromValue(nextBidValue)
-                                if (nextBidAction != null) {
-                                    Button(onClick = { viewModel.bid(nextBidAction) }) {
-                                        Text(stringResource(R.string.btn_bid_n, nextBidValue))
-                                    }
-                                }
+                        val nextBidValue = state.biddingHighestBid + 1
+                        if (nextBidValue in 2..7) {
+                            val nextBidAction = bidActionFromValue(nextBidValue)
+                            if (nextBidAction != null) {
+                                GroupButton(
+                                    text = stringResource(R.string.btn_bid_n, nextBidValue),
+                                    onClick = { viewModel.bid(nextBidAction) }
+                                )
                             }
                         }
                     }
                 }
 
                 HandPhase.TALON_PICKUP -> {
-                    if (state.isHumanTurn) {
+                    CenteredSingleButton {
                         Button(
                             onClick = { viewModel.pickupTalon() },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.width(GROUP_BUTTON_WIDTH)
                         ) {
                             Text(stringResource(R.string.btn_take_talon))
                         }
@@ -79,84 +82,38 @@ fun ActionArea(
                 }
 
                 HandPhase.DISCARDING -> {
-                    if (state.isHumanTurn) {
-                        Text(
-                            stringResource(R.string.label_discard, selectedCards.size),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        if (selectedCards.size == 2) {
-                            Button(
-                                onClick = onDiscardConfirm,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(stringResource(R.string.btn_confirm_discard))
-                            }
-                        } else {
-                            Text(
-                                stringResource(R.string.hint_click_cards),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                    CenteredSingleButton {
+                        Button(
+                            onClick = onDiscardConfirm,
+                            modifier = Modifier.width(GROUP_BUTTON_WIDTH)
+                        ) {
+                            Text(stringResource(R.string.btn_confirm_discard))
                         }
                     }
                 }
 
                 HandPhase.TRUMP_DECLARATION -> {
-                    if (state.isHumanTurn) {
-                        Text(
-                            stringResource(R.string.label_declare_game, state.minimumBidValue),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        Row(
-                            modifier = Modifier.horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            BidType.entries.filter { it.strength >= state.minimumBidValue }
-                                .forEach { gameType ->
-                                    Button(onClick = { viewModel.declareGame(gameType) }) {
-                                        Text(gameType.displayName())
-                                    }
-                                }
-                        }
+                    ButtonGroup(vertical = verticalButtons, scrollable = true) {
+                        BidType.entries.filter { it.strength >= state.minimumBidValue }
+                            .forEach { gameType ->
+                                GroupButton(
+                                    text = gameType.displayName(),
+                                    onClick = { viewModel.declareGame(gameType) }
+                                )
+                            }
                     }
                 }
 
                 HandPhase.FOLLOW -> {
-                    if (state.isHumanTurn) {
-                        Text(
-                            stringResource(R.string.label_follow),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold
+                    ButtonGroup(vertical = verticalButtons) {
+                        GroupButton(
+                            text = stringResource(R.string.btn_follow_yes),
+                            onClick = { viewModel.follow(true) }
                         )
-                        Spacer(Modifier.height(8.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Button(onClick = { viewModel.follow(true) }) {
-                                Text(stringResource(R.string.btn_follow_yes))
-                            }
-                            OutlinedButton(onClick = { viewModel.follow(false) }) {
-                                Text(stringResource(R.string.btn_follow_no))
-                            }
-                        }
-                    }
-                }
-
-                HandPhase.PLAYING -> {
-                    if (state.isHumanTurn) {
-                        Text(
-                            stringResource(R.string.your_turn_play),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
-                        )
-                    } else {
-                        Text(
-                            stringResource(R.string.bots_playing),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        GroupButton(
+                            text = stringResource(R.string.btn_follow_no),
+                            onClick = { viewModel.follow(false) },
+                            outlined = true
                         )
                     }
                 }
@@ -164,6 +121,49 @@ fun ActionArea(
                 else -> {}
             }
         }
+    }
+}
+
+@Composable
+private fun ButtonGroup(
+    vertical: Boolean,
+    scrollable: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    if (vertical) {
+        val modifier = if (scrollable) Modifier.verticalScroll(rememberScrollState()) else Modifier
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) { content() }
+    } else {
+        val modifier = if (scrollable) Modifier.horizontalScroll(rememberScrollState()) else Modifier
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+        ) { content() }
+    }
+}
+
+/** Centrira jedno (samostalno) dugme fiksne širine unutar raspoloživog prostora. */
+@Composable
+private fun CenteredSingleButton(button: @Composable () -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        button()
+    }
+}
+
+/** Dugme fiksne, uniformne širine ([GROUP_BUTTON_WIDTH]) sa centriranim tekstom. */
+@Composable
+private fun GroupButton(text: String, onClick: () -> Unit, outlined: Boolean = false) {
+    val label = @Composable {
+        Text(text, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+    }
+    if (outlined) {
+        OutlinedButton(onClick = onClick, modifier = Modifier.width(GROUP_BUTTON_WIDTH)) { label() }
+    } else {
+        Button(onClick = onClick, modifier = Modifier.width(GROUP_BUTTON_WIDTH)) { label() }
     }
 }
 

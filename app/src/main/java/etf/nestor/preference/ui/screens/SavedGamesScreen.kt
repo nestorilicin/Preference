@@ -214,37 +214,35 @@ fun SavedGamesScreen(
                 ) {
                     items(savedGames, key = { it.id }) { save ->
                         Card(modifier = Modifier.fillMaxWidth()) {
-                            Column(modifier = Modifier.padding(16.dp)) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        Text(save.name, style = MaterialTheme.typography.titleMedium)
-                                        Text(
-                                            text = dateFormat.format(Date(save.savedAt)),
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
+                            Row(
+                                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(save.name, style = MaterialTheme.typography.titleMedium)
+                                    Text(
+                                        text = dateFormat.format(Date(save.savedAt)),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                                // Dugmad u dve kolone (Učitaj/Izvezi levo, Obriši/Pošalji desno),
+                                // svaka kolona centrirana — umesto reda razvučenog preko cele širine.
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     TextButton(onClick = { onLoad(save.id) }) {
                                         Text(stringResource(R.string.btn_load_game))
                                     }
-                                    TextButton(onClick = { viewModel.deleteSavedGame(save.id) }) {
-                                        Text(stringResource(R.string.btn_delete_game))
-                                    }
-                                }
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.End
-                                ) {
                                     TextButton(onClick = {
                                         pendingExportId = save.id
                                         val fileName = save.name.replace(Regex("[\\\\/:*?\"<>|]"), "_")
                                         exportLauncher.launch("$fileName.json")
                                     }) {
                                         Text(stringResource(R.string.btn_export_game))
+                                    }
+                                }
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    TextButton(onClick = { viewModel.deleteSavedGame(save.id) }) {
+                                        Text(stringResource(R.string.btn_delete_game))
                                     }
                                     TextButton(onClick = { pendingUploadId = save.id }) {
                                         Text(stringResource(R.string.btn_upload_game))
@@ -257,7 +255,7 @@ fun SavedGamesScreen(
             }
 
             Spacer(Modifier.height(16.dp))
-            Button(onClick = onBack, modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = onBack) {
                 Text(stringResource(R.string.btn_back))
             }
         }

@@ -60,7 +60,7 @@
 
     <!-- Action area — discard -->
     <string name="label_discard">Select 2 cards to discard (%d/2 selected):</string>
-    <string name="btn_confirm_discard">Discard selected cards</string>
+    <string name="btn_confirm_discard">Discard</string>
     <string name="hint_click_cards">Click cards below</string>
 
     <!-- Action area — declare -->
@@ -82,6 +82,9 @@
     <string name="bid_clubs">Clubs</string>
     <string name="bid_misere">Misere</string>
     <string name="bid_sans">Sans</string>
+
+    <!-- Current declared game shown on the table -->
+    <string name="label_current_trump">Trump: %s</string>
 
     <!-- Card back description (accessibility) -->
     <string name="card_back_desc">Card back</string>

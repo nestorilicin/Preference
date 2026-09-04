@@ -757,6 +757,7 @@ class SingleplayerFacade(
             biddingCurrentPlayer = bm?.currentPlayer,
             declarer = hand?.declarer,
             trumpSuit = hand?.trumpSuit,
+            currentGameType = currentGameType,
             minimumBidValue = minimumBidValue,
             followStatus = followStatus,
             scoreSheets = gameState.scoreSheets.toMap(),

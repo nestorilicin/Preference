@@ -55,11 +55,11 @@
     <string name="btn_bid_n">Licitiram %d</string>
 
     <!-- Akcioni deo — kup -->
-    <string name="btn_take_talon">Uzmi kup</string>
+    <string name="btn_take_talon">Uzmi </string>
 
     <!-- Akcioni deo — bacanje -->
     <string name="label_discard">Izaberi 2 karte za bacanje (%d/2 izabrano):</string>
-    <string name="btn_confirm_discard">Baci izabrane karte</string>
+    <string name="btn_confirm_discard">Izbaci</string>
     <string name="hint_click_cards">Klikni na karte ispod</string>
 
     <!-- Akcioni deo — najava -->
@@ -81,6 +81,9 @@
     <string name="bid_clubs">Tref</string>
     <string name="bid_misere">Betl</string>
     <string name="bid_sans">Sans</string>
+
+    <!-- Prikaz trenutno najavljene igre na stolu -->
+    <string name="label_current_trump">Adut: %s</string>
 
     <!-- Opis stražnje strane karte (accessibility) -->
     <string name="card_back_desc">Lice dole</string>

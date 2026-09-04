@@ -26,7 +26,8 @@ import etf.nestor.preference.ui.composables.PlayerHandSection
 import etf.nestor.preference.ui.composables.ScoreBar
 import etf.nestor.preference.ui.composables.TalonArea
 import etf.nestor.preference.ui.composables.TrickArea
-import etf.nestor.preference.ui.composables.toLocalizedString
+import etf.nestor.preference.ui.composables.actionMessageText
+import etf.nestor.preference.ui.composables.currentGameLabel
 import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
 
 // ─── Portret raspored (skrolabilan srednji deo) ──────────────────────────
@@ -52,6 +53,20 @@ fun PortraitGamePlayScreen(
 
         // Gornji bar sa poenima, stihovima i botovima (imenom + "govorom" tokom licitacije)
         ScoreBar(state, viewModel)
+
+        // Trenutno najavljena igra (npr. "Adut: Herc", "Sans", "Betl") — vidljivo tek pošto je
+        // najavljena, nestaje kad ruka završi
+        state.currentGameLabel()?.let { label ->
+            Text(
+                text = label,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
 
         // Tekući stih ILI kup — nikad oba istovremeno (kup je na stolu samo tokom
         // licitacije/uzimanja, kada još nema odigranih karata u stihu), pa se prikazuje
@@ -90,7 +105,7 @@ fun PortraitGamePlayScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = state.message.toLocalizedString(),
+                text = state.actionMessageText(selectedCards.size),
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth(),

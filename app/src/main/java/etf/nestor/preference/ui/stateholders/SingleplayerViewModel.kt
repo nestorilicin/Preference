@@ -52,9 +52,6 @@ class SingleplayerViewModel @Inject constructor(
     private val _sheetDialogPlayer = MutableStateFlow<Int?>(null)
     val sheetDialogPlayer: StateFlow<Int?> = _sheetDialogPlayer.asStateFlow()
 
-    // Reaktivno iz baze — radi ispravno bez obzira na to koja instanca ViewModel-a (svaki ekran
-    // ima svoju, jer je hiltViewModel() vezan za NavBackStackEntry) je poslednja promenila stanje
-    // automatskog backup-a (sačuvala ga, obrisala ga pri izlasku, ili ga prepisala igranjem).
     val hasSavedGame: StateFlow<Boolean> =
         gameSaveRepository.observeHasAutoBackup()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
@@ -64,10 +61,6 @@ class SingleplayerViewModel @Inject constructor(
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private var facade: SingleplayerFacade? = null
-
-    // Id ručno sačuvane partije iz koje je tekuća sesija učitana (loadGame) — null ako je nova
-    // partija ili nastavak iz automatskog backup-a. Dok je postavljen, izlazak iz partije ne
-    // prikazuje dijalog nego tiho prepiše baš tu sačuvanu partiju (vidi exitLoadedSavedGame).
     private var loadedSavedGameId: Long? = null
     val isLoadedFromSavedGame: Boolean get() = loadedSavedGameId != null
 
@@ -125,35 +118,26 @@ class SingleplayerViewModel @Inject constructor(
         viewModelScope.launch { onResult(gameSaveRepository.exportToJson(id)) }
     }
 
-    /** Uvozi partiju iz sadržaja JSON fajla (SUCCESS / DUPLICATE ako već postoji / FAILED). */
     fun importSavedGame(jsonText: String, onResult: (AddGameResult) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.importFromJson(jsonText)) }
     }
 
-    /** Otprema (upload) sačuvanu partiju na Ktor server, zaštićenu unetom lozinkom. */
     fun uploadSavedGame(id: Long, password: String, onResult: (UploadResult) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.uploadToServer(id, password)) }
     }
 
-    /** Učitava listu partija sa servera (id + ime) — za prikaz u dijalogu pre preuzimanja. */
     fun listServerPartije(onResult: (List<PartijaSummary>?) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.listServerPartije()) }
     }
 
-    /** Preuzima (download) sa Ktor servera partiju sa datim id-jem (SUCCESS / DUPLICATE / FAILED / SERVER_UNAVAILABLE). */
     fun downloadSavedGame(id: Int, password: String, onResult: (AddGameResult) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.downloadFromServer(id, password)) }
     }
 
-    /** Igrač je svesno izabrao izlazak bez čuvanja — obriši i automatski backup, ne samo ekran. */
     fun exitWithoutSaving() {
         viewModelScope.launch { gameSaveRepository.clearAutoBackup() }
     }
 
-    /**
-     * Tiho izlazi iz partije učitane sa ekrana "Sačuvane partije" — prepisuje baš tu sačuvanu
-     * partiju tekućim stanjem, bez dijaloga za čuvanje.
-     */
     fun exitLoadedSavedGame() {
         val f = facade ?: return
         val id = loadedSavedGameId ?: return

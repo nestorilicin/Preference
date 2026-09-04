@@ -34,9 +34,6 @@ class SettingsViewModel @Inject constructor(
 
     private val _avatarPath = MutableStateFlow(playerPreferences.getAvatarPath())
     val avatarPath: StateFlow<String?> = _avatarPath.asStateFlow()
-
-    // Slika profila se uvek čuva pod istim imenom fajla, pa se avatarPath ne bi promenio kad se
-    // slika zameni — ova verzija se uveća pri svakom čuvanju da ekran zna da ponovo učita sliku.
     private val _avatarVersion = MutableStateFlow(0)
     val avatarVersion: StateFlow<Int> = _avatarVersion.asStateFlow()
 

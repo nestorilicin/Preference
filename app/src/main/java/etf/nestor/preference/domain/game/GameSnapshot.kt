@@ -1,5 +1,6 @@
 package etf.nestor.preference.domain.game
 
+import etf.nestor.preference.domain.bidding.BidType
 import etf.nestor.preference.domain.bidding.BotBidStatus
 import etf.nestor.preference.domain.model.PlayedCard
 import etf.nestor.preference.domain.model.PlayingCard
@@ -20,6 +21,7 @@ data class GameSnapshot(
     val biddingCurrentPlayer: Int?,
     val declarer: Int?,
     val trumpSuit: Suit?,
+    val currentGameType: BidType?,
     val minimumBidValue: Int,
     val followStatus: Map<Int, Boolean?>,
     val scoreSheets: Map<Int, ScoreSheet>,
