@@ -24,8 +24,6 @@ import androidx.compose.ui.unit.dp
 import etf.nestor.preference.domain.game.HandPhase
 import etf.nestor.preference.domain.model.PlayingCard
 
-// ─── Karte igrača (dno ekrana) ───────────────────────────────────────────
-
 @Composable
 fun PlayerHandSection(
     cards: List<PlayingCard>,
@@ -45,12 +43,7 @@ fun PlayerHandSection(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
     ) {
-        // Zaglavlje: malo dugme za pregled uzetih stihova (isto u portretu i landscape-u) —
-        // klikljivo je samo dugme, ne ceo red
 
-
-        // Landscape → uvijek jedan red; Portrait → ≤5 jedan red, >5 dva reda
-        // Veličina karte: max HAND_CARD_W, smanji se ako ne stane (npr. 12 karata)
         @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
         BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
             val spacing = 4.dp
@@ -68,10 +61,7 @@ fun PlayerHandSection(
                 verticalArrangement = Arrangement.spacedBy(spacing)
             ) {
                 if (isLandscape || cards.size <= 5) {
-                    // Jedan centriran red — razmak SAMO izmedju karata (spacedBy), ne i posle
-                    // poslednje; inače red bude za jedan `spacing` širi nego što je predviđeno u
-                    // availableW/cardW proračunu iznad, pa se krajnje (prve/poslednje) karte
-                    // centriranjem seku na ivici i deluju manje.
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally)
@@ -90,7 +80,7 @@ fun PlayerHandSection(
                         }
                     }
                 } else {
-                    // Dva centrirana reda (portrait, >5 karata)
+
                     val mid = (cards.size + 1) / 2
                     listOf(cards.take(mid), cards.drop(mid)).forEach { rowCards ->
                         Row(
@@ -115,7 +105,6 @@ fun PlayerHandSection(
             }
         }
     }
-
 
 }
 

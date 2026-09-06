@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Locale
 
+// permisije > Geocoder -> string lokacija
 suspend fun fetchUserCountry(context: Context): String? {
     if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
         != PackageManager.PERMISSION_GRANTED

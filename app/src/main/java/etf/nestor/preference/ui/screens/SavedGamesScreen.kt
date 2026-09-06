@@ -37,7 +37,7 @@ import etf.nestor.preference.data.UploadResult
 import etf.nestor.preference.data.network.PartijaSummary
 import etf.nestor.preference.ui.composables.PasswordDialog
 import etf.nestor.preference.ui.composables.ServerPartijeDialog
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -46,7 +46,7 @@ import java.util.Locale
 fun SavedGamesScreen(
     onBack: () -> Unit,
     onLoad: (Long) -> Unit,
-    viewModel: SingleplayerViewModel = hiltViewModel()
+    viewModel: SinglePlayerViewModel = hiltViewModel()
 ) {
     val savedGames by viewModel.savedGames.collectAsState()
     val dateFormat = remember { SimpleDateFormat("dd.MM.yyyy. HH:mm", Locale.getDefault()) }
@@ -65,8 +65,6 @@ fun SavedGamesScreen(
     val downloadDuplicateMsg = stringResource(R.string.msg_download_duplicate)
     val serverUnavailableMsg = stringResource(R.string.msg_server_unavailable)
 
-    // Id partije čiji export/upload je u toku (postavlja se pre pokretanja file pickera/dijaloga,
-    // koristi se kad stigne rezultat).
     var pendingExportId by remember { mutableStateOf<Long?>(null) }
     var pendingUploadId by remember { mutableStateOf<Long?>(null) }
     var serverPartije by remember { mutableStateOf<List<PartijaSummary>?>(null) }
@@ -134,7 +132,6 @@ fun SavedGamesScreen(
         )
     }
 
-    // Prvo se prikaže lista partija sa servera (samo imena, bez lozinki)...
     serverPartije?.let { list ->
         ServerPartijeDialog(
             partije = list,
@@ -146,7 +143,6 @@ fun SavedGamesScreen(
         )
     }
 
-    // ...pa se tek za izabranu partiju traži lozinka.
     pendingDownload?.let { partija ->
         PasswordDialog(
             title = stringResource(R.string.download_password_title),
@@ -185,7 +181,7 @@ fun SavedGamesScreen(
                 }
                 OutlinedButton(
                     onClick = {
-                        viewModel.listServerPartije { list ->
+                        viewModel.listServerGames { list ->
                             if (list != null) {
                                 serverPartije = list
                             } else {
@@ -226,8 +222,7 @@ fun SavedGamesScreen(
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
-                                // Dugmad u dve kolone (Učitaj/Izvezi levo, Obriši/Pošalji desno),
-                                // svaka kolona centrirana — umesto reda razvučenog preko cele širine.
+
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     TextButton(onClick = { onLoad(save.id) }) {
                                         Text(stringResource(R.string.btn_load_game))

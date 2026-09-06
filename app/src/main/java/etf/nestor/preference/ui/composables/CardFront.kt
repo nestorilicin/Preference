@@ -35,7 +35,7 @@ fun CardFront(card: PlayingCard, modifier: Modifier = Modifier) {
                 .clip(RoundedCornerShape(4.dp))
         )
     } else {
-        // Fallback ako slika nije nađena
+
         Box(
             modifier = modifier
                 .background(Color.White, RoundedCornerShape(4.dp))
@@ -47,8 +47,6 @@ fun CardFront(card: PlayingCard, modifier: Modifier = Modifier) {
     }
 }
 
-// Direktno mapiranje karte na resurs (bez sporog getIdentifier refleksionog pretraživanja
-// koje se ranije radilo na svakoj rekompoziciji i opterećivalo glavnu nit).
 private fun PlayingCard.toDrawableRes(): Int = when (suit) {
     Suit.SPADES, Suit.NO_SUIT -> when (rank) {
         Rank.SEVEN -> R.drawable.card_s_7

@@ -20,7 +20,6 @@ import etf.nestor.preference.R
 import etf.nestor.preference.ui.composables.PlayerNameDialog
 import etf.nestor.preference.ui.stateholders.SettingsViewModel
 
-
 @Composable
 fun MenuScreen(
     onSingleplayerClick: () -> Unit,
@@ -67,7 +66,6 @@ fun MenuScreen(
         }
     }
 
-    // Pri prvom pokretanju aplikacije igrač mora da unese ime pre nego što nastavi
     if (playerName.isBlank()) {
         PlayerNameDialog(onConfirm = { settingsViewModel.setPlayerName(it) })
     }

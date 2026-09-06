@@ -6,7 +6,6 @@ import etf.nestor.preference.R
 import etf.nestor.preference.domain.bidding.BidType
 import etf.nestor.preference.domain.game.GameSnapshot
 
-/** Lokalizovan naziv igre za prikaz — koriste ActionArea (najava igre) i GameMessage tekstovi. */
 @Composable
 fun BidType.displayName(): String = stringResource(
     when (this) {
@@ -19,11 +18,6 @@ fun BidType.displayName(): String = stringResource(
     }
 )
 
-/**
- * Tekst trenutno najavljene igre za prikaz na stolu — npr. "Adut: Herc" za igre u boji,
- * ili samo "Sans"/"Betl" (nemaju adut). Null dok igra još nije najavljena (licitacija,
- * uzimanje kupa, bacanje karata) ili kad ruka nije u toku.
- */
 @Composable
 fun GameSnapshot.currentGameLabel(): String? {
     val gameType = currentGameType ?: return null

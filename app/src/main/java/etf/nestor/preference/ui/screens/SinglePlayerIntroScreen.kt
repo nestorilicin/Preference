@@ -18,14 +18,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import etf.nestor.preference.R
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 @Composable
 fun SingleplayerIntroScreen(
     onNewGame: () -> Unit,
     onContinue: () -> Unit,
     onSavedGames: () -> Unit,
-    viewModel: SingleplayerViewModel = hiltViewModel()
+    viewModel: SinglePlayerViewModel = hiltViewModel()
 ) {
     val hasSavedGame by viewModel.hasSavedGame.collectAsState()
 

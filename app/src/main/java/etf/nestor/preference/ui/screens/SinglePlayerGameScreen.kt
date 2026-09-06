@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 enum class SingleplayerStartMode { NEW, CONTINUE, LOAD }
 
@@ -19,7 +19,7 @@ fun SinglePlayerGameScreen(
     startMode: SingleplayerStartMode = SingleplayerStartMode.NEW,
     loadId: Long? = null,
     onExit: () -> Unit = {},
-    viewModel: SingleplayerViewModel = hiltViewModel()
+    viewModel: SinglePlayerViewModel = hiltViewModel()
 ) {
     val isGameStarted by viewModel.isGameStarted.collectAsState()
 

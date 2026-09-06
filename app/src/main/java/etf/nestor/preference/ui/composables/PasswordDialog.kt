@@ -10,12 +10,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import etf.nestor.preference.R
 
-/**
- * Dijalog za unos lozinke — koristi se i za otpremanje (upload) partije na server (bira se nova
- * lozinka) i za preuzimanje (download) partije sa servera (unosi se lozinka pod kojom je sačuvana).
- */
 @Composable
 fun PasswordDialog(
     title: String,
@@ -32,6 +29,7 @@ fun PasswordDialog(
                 value = password,
                 onValueChange = { password = it },
                 singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
                 label = { Text(stringResource(R.string.password_label)) }
             )
         },

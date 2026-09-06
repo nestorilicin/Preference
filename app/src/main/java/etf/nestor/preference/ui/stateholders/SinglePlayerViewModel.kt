@@ -13,7 +13,7 @@ import etf.nestor.preference.domain.bidding.BidAction
 import etf.nestor.preference.domain.bidding.BidType
 import etf.nestor.preference.domain.game.GameMessage
 import etf.nestor.preference.domain.game.GameSnapshot
-import etf.nestor.preference.domain.game.SingleplayerFacade
+import etf.nestor.preference.domain.game.SinglePlayerFacade
 import etf.nestor.preference.domain.model.PlayingCard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,12 +27,12 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class SingleplayerViewModel @Inject constructor(
+class SinglePlayerViewModel @Inject constructor(
     private val playerPreferences: PlayerPreferences,
     private val gameSaveRepository: GameSaveRepository
 ) : ViewModel() {
 
-    val startScoreOptions = listOf(4, 30, 60, 90, 120, 150, 180, 210, 240)
+    val startScoreOptions = listOf(30, 60, 90, 120, 150, 180, 210, 240)
 
     private val _selectedStartScore = MutableStateFlow(120)
     val selectedStartScore: StateFlow<Int> = _selectedStartScore.asStateFlow()
@@ -60,7 +60,7 @@ class SingleplayerViewModel @Inject constructor(
         gameSaveRepository.observeSavedGames()
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    private var facade: SingleplayerFacade? = null
+    private var facade: SinglePlayerFacade? = null
     private var loadedSavedGameId: Long? = null
     val isLoadedFromSavedGame: Boolean get() = loadedSavedGameId != null
 
@@ -71,7 +71,7 @@ class SingleplayerViewModel @Inject constructor(
     fun startGame() {
         loadedSavedGameId = null
         launchFacade(
-            SingleplayerFacade(
+            SinglePlayerFacade(
                 playerName = playerPreferences.getName().ifBlank { "Igrač" },
                 startScore = _selectedStartScore.value,
                 scope = viewModelScope
@@ -84,7 +84,7 @@ class SingleplayerViewModel @Inject constructor(
         viewModelScope.launch {
             val saved = gameSaveRepository.loadAutoBackup()
             if (saved != null) {
-                launchFacade(SingleplayerFacade(scope = viewModelScope, savedState = saved))
+                launchFacade(SinglePlayerFacade(scope = viewModelScope, savedState = saved))
             } else {
                 startGame()
             }
@@ -96,7 +96,7 @@ class SingleplayerViewModel @Inject constructor(
             val saved = gameSaveRepository.loadNamed(id)
             if (saved != null) {
                 loadedSavedGameId = id
-                launchFacade(SingleplayerFacade(scope = viewModelScope, savedState = saved))
+                launchFacade(SinglePlayerFacade(scope = viewModelScope, savedState = saved))
             }
         }
     }
@@ -113,7 +113,6 @@ class SingleplayerViewModel @Inject constructor(
         viewModelScope.launch { gameSaveRepository.deleteSavedGame(id) }
     }
 
-    /** Vraća JSON sadržaj partije za export u fajl (npr. da se upiše u Uri iz file pickera). */
     fun exportSavedGame(id: Long, onResult: (json: String?) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.exportToJson(id)) }
     }
@@ -126,7 +125,7 @@ class SingleplayerViewModel @Inject constructor(
         viewModelScope.launch { onResult(gameSaveRepository.uploadToServer(id, password)) }
     }
 
-    fun listServerPartije(onResult: (List<PartijaSummary>?) -> Unit) {
+    fun listServerGames(onResult: (List<PartijaSummary>?) -> Unit) {
         viewModelScope.launch { onResult(gameSaveRepository.listServerPartije()) }
     }
 
@@ -149,7 +148,7 @@ class SingleplayerViewModel @Inject constructor(
     private fun defaultSaveName(): String =
         SimpleDateFormat("dd.MM. HH:mm", Locale.getDefault()).format(Date())
 
-    private fun launchFacade(f: SingleplayerFacade) {
+    private fun launchFacade(f: SinglePlayerFacade) {
         facade = f
         _sheetDialogPlayer.value = null
         viewModelScope.launch {
@@ -163,9 +162,9 @@ class SingleplayerViewModel @Inject constructor(
                 }
 
                 if (snapshot.message is GameMessage.RoundFinished) {
-                    val humanPlayed = snapshot.declarer == SingleplayerFacade.HUMAN ||
-                            snapshot.followStatus[SingleplayerFacade.HUMAN] == true
-                    if (humanPlayed) _sheetDialogPlayer.value = SingleplayerFacade.HUMAN
+                    val humanPlayed = snapshot.declarer == SinglePlayerFacade.HUMAN ||
+                            snapshot.followStatus[SinglePlayerFacade.HUMAN] == true
+                    if (humanPlayed) _sheetDialogPlayer.value = SinglePlayerFacade.HUMAN
                 }
             }
         }

@@ -9,15 +9,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.domain.game.GameSnapshot
 
-// Koliko su karte botova uvučene od ivice stola ka sredini, kao procenat širine stola
-// (a ne fiksan dp) — da ostanu u liniji sa Bot 2 / Bot 1 kolonom u ScoreBar-u na svim
-// veličinama ekrana. Po potrebi fino podesiti nakon testiranja na uređaju.
 private const val LANDSCAPE_BOT_CARD_INSET_FRACTION = 0.2f
 
-/**
- * Sto u landscape modu (samo tekući stih — prikaz kupa je na pozivaocu, isto kao u portretu
- * gde se TalonArea/TrickArea biraju spolja preko if/else na state.phase).
- */
 @Composable
 fun LandscapeTable(state: GameSnapshot, cardW: Dp, cardH: Dp, modifier: Modifier = Modifier) {
     BoxWithConstraints(modifier = modifier) {

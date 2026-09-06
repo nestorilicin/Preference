@@ -21,7 +21,7 @@ class GameState(val players: List<Player>, start: Int) {
         dealerPosition = (dealerPosition + 1) % 3
     }
 
-    internal fun restoreDealerPosition(position: Int) {
+    internal fun setDealerPosition(position: Int) {
         dealerPosition = position
     }
 

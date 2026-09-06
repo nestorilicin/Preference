@@ -17,11 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 
-/**
- * Dijalog kad igrač pokuša da izađe iz partije u toku (dugme za izlaz ili sistemsko Nazad).
- * Nudi: sačuvaj partiju pod imenom pa izađi, izađi bez čuvanja, ili otkaži (ostani u igri).
- * Automatski backup se čuva bez obzira na izbor — ovo je samo dodatno, imenovano čuvanje.
- */
 @Composable
 fun ExitGameDialog(
     onDismiss: () -> Unit,

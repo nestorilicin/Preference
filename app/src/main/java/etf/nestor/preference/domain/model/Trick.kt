@@ -1,7 +1,5 @@
 package etf.nestor.preference.domain.model
 
-
-
 class Trick(val trumpSuit: Suit?) {
     private val _playedCards = mutableListOf<PlayedCard>()
     val playedCards: List<PlayedCard>

@@ -8,7 +8,6 @@ class ScoreCalculator {
         applySoups(outcome, scoreSheets, roundValue)
     }
 
-
     private fun applyGamePlayer(
         outcome: RoundOutcome, scoreSheets: MutableMap<Int, ScoreSheet>, roundValue: Int
     ) {
@@ -41,7 +40,6 @@ class ScoreCalculator {
             }
         }
     }
-
 
     private fun applySoups(
         outcome: RoundOutcome, scoreSheets: MutableMap<Int, ScoreSheet>, roundValue: Int

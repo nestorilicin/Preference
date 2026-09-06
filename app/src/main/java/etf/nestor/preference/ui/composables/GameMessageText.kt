@@ -7,8 +7,6 @@ import etf.nestor.preference.domain.game.GameMessage
 import etf.nestor.preference.domain.game.GameSnapshot
 import etf.nestor.preference.domain.game.HandPhase
 
-// ─── GameMessage → lokalizovani string ───────────────────────────────────
-
 @Composable
 fun GameMessage.toLocalizedString(): String = when (this) {
     is GameMessage.Loading -> stringResource(R.string.msg_loading)
@@ -52,14 +50,6 @@ fun GameMessage.toLocalizedString(): String = when (this) {
     is GameMessage.GameOver -> stringResource(R.string.msg_game_over)
 }
 
-/**
- * Jedinstven tekst iznad akcionog dela. Ranije su se odvojeno prikazivale i opšta poruka
- * (GameMessage) i naslov/instrukcija iz ActionArea za istu situaciju — često skoro isti tekst.
- * Sada se prikazuje samo jedno: kad je igrač na potezu i faza ima svoju konkretnu instrukciju
- * (licitacija, bacanje karata sa brojačem, najava igre sa minimumom, praćenje, igranje karte),
- * ona zamenjuje opštu poruku; inače (botov potez, faze bez posebne instrukcije) ostaje opšta
- * GameMessage poruka (npr. "Bot 2 je odigrao kartu.", "Runda gotova...").
- */
 @Composable
 fun GameSnapshot.actionMessageText(selectedCardsCount: Int): String {
     if (isHumanTurn) {

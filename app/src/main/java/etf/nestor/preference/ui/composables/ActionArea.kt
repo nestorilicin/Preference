@@ -26,14 +26,14 @@ import etf.nestor.preference.domain.bidding.BidType
 import etf.nestor.preference.domain.game.GameSnapshot
 import etf.nestor.preference.domain.game.HandPhase
 import etf.nestor.preference.domain.model.PlayingCard
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 private val GROUP_BUTTON_WIDTH = 120.dp
 
 @Composable
 fun ActionArea(
     state: GameSnapshot,
-    viewModel: SingleplayerViewModel,
+    viewModel: SinglePlayerViewModel,
     selectedCards: Set<PlayingCard>,
     onDiscardConfirm: () -> Unit,
     contentPadding: Dp = 12.dp,
@@ -146,7 +146,6 @@ private fun ButtonGroup(
     }
 }
 
-/** Centrira jedno (samostalno) dugme fiksne širine unutar raspoloživog prostora. */
 @Composable
 private fun CenteredSingleButton(button: @Composable () -> Unit) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -154,7 +153,6 @@ private fun CenteredSingleButton(button: @Composable () -> Unit) {
     }
 }
 
-/** Dugme fiksne, uniformne širine ([GROUP_BUTTON_WIDTH]) sa centriranim tekstom. */
 @Composable
 private fun GroupButton(text: String, onClick: () -> Unit, outlined: Boolean = false) {
     val label = @Composable {

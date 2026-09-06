@@ -149,7 +149,7 @@ class ScoreCalculatorTest {
 
         val outcome = baseOutcome(
             gameType = GameType.HEARTS,
-            multiplier = Multiplier.COUNTER
+            multiplier = Multiplier.RE_RECOUNTER
         )
 
         calc.applyRound(outcome, sheets)
@@ -232,7 +232,7 @@ class ScoreCalculatorTest {
         val outcome = baseOutcome(
             gamePlayer = 0,
             gameType = GameType.DIAMONDS,
-            multiplier = Multiplier.COUNTER,
+            multiplier = Multiplier.RE_COUNTER,
             p0 = 6,
             p1 = 2,
             p2 = 2

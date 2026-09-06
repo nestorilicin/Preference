@@ -12,10 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import etf.nestor.preference.R
 
-/**
- * Dijalog za unos igračevog imena pri prvom pokretanju aplikacije.
- * Ne može da se zatvori dok se ne unese ime.
- */
 @Composable
 fun PlayerNameDialog(onConfirm: (String) -> Unit) {
     var name by remember { mutableStateOf("") }

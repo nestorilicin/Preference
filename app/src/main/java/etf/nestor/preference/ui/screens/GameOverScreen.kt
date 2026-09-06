@@ -18,19 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.domain.game.GameSnapshot
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 import kotlin.math.abs
 
-// ─── Kraj partije ───────────────────────────────────────────────────────
-
-/**
- * Konačan raščun, po klasičnoj formuli preferansa:
- * centar * 10 - moje supe levom - moje supe desnom + supe koje mi je dao desni + supe koje mi je
- * dao levi. Zbir ovako izračunatih vrednosti za sva tri igrača je uvek 0 — ko je u minusu je
- * Dobar, ko je u plusu je Loš.
- */
 @Composable
-fun GameOverScreen(state: GameSnapshot, viewModel: SingleplayerViewModel) {
+fun GameOverScreen(state: GameSnapshot, viewModel: SinglePlayerViewModel) {
     val youFallback = stringResource(R.string.player_name_you)
     val names = listOf(
         state.playerNames.getOrElse(0) { youFallback },
@@ -49,7 +41,6 @@ fun GameOverScreen(state: GameSnapshot, viewModel: SingleplayerViewModel) {
         return center * 10 - toLeft - toRight + fromRight + fromLeft
     }
 
-    // Sortirano rastuće — ko je najniže (najviše u minusu, "Dobar") je prvi
     val standings = listOf(0, 1, 2).map { it to finalScore(it) }.sortedBy { it.second }
 
     AppScreen(title = stringResource(R.string.msg_game_over)) { innerPadding ->

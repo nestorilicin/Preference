@@ -1,8 +1,6 @@
 package etf.nestor.preference.domain.bidding
 
-class BiddingManager(val firstPlayer: Int) {
-    private val secondPlayer = (firstPlayer + 1) % 3
-    private val thirdPlayer = (firstPlayer + 2) % 3
+class BiddingManager(firstPlayer: Int) {
     private val bids = mutableListOf<Bid>()
     private val activePlayers = mutableSetOf(0, 1, 2)
     var currentHighestBid = 1
@@ -41,18 +39,6 @@ class BiddingManager(val firstPlayer: Int) {
     }
 
     private fun mine(player: Int) {
-        require(player != currentWinner) {
-            "Winner can't say mine"
-        }
-        require(currentHighestBid != 0) {
-            "First bid can't be mine"
-        }
-        require(currentPlayer != thirdPlayer) {
-            "Youngest player can't say mine"
-        }
-        require(currentWinner != firstPlayer) {
-            "Nobody is older than first player"
-        }
         currentWinner = player
     }
 

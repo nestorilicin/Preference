@@ -28,34 +28,27 @@ import etf.nestor.preference.ui.composables.TalonArea
 import etf.nestor.preference.ui.composables.TrickArea
 import etf.nestor.preference.ui.composables.actionMessageText
 import etf.nestor.preference.ui.composables.currentGameLabel
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
-// ─── Portret raspored (skrolabilan srednji deo) ──────────────────────────
-
-// Minimalna visina zone poruka+akcije u portretu — dovoljna za najveći mogući sadržaj
-// (npr. licitacija: tekst + red dugmadi), da promena faze ne menja preostali prostor za sto/kup
 private val PORTRAIT_MESSAGE_ACTION_HEIGHT = 130.dp
 
 @Composable
 fun PortraitGamePlayScreen(
     state: GameSnapshot,
-    viewModel: SingleplayerViewModel,
+    viewModel: SinglePlayerViewModel,
     selectedCards: Set<PlayingCard>,
     onCardClick: (PlayingCard) -> Unit,
     onDiscardConfirm: () -> Unit,
 
-) {
+    ) {
     Column(
         Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
 
-        // Gornji bar sa poenima, stihovima i botovima (imenom + "govorom" tokom licitacije)
         ScoreBar(state, viewModel)
 
-        // Trenutno najavljena igra (npr. "Adut: Herc", "Sans", "Betl") — vidljivo tek pošto je
-        // najavljena, nestaje kad ruka završi
         state.currentGameLabel()?.let { label ->
             Text(
                 text = label,
@@ -68,11 +61,6 @@ fun PortraitGamePlayScreen(
             )
         }
 
-        // Tekući stih ILI kup — nikad oba istovremeno (kup je na stolu samo tokom
-        // licitacije/uzimanja, kada još nema odigranih karata u stihu), pa se prikazuje
-        // tačno jedno od to dvoje, centrirano u preostalom prostoru iznad poruke/akcija.
-        // Karte kupa su iste veličine kao karte u ruci igrača. Kup je okrenut licem dole
-        // tokom licitacije, otkriven tokom TALON_PICKUP (samo igraču koji ga uzima)
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -93,10 +81,6 @@ fun PortraitGamePlayScreen(
             }
         }
 
-        // Poruka + akcioni deo — zajedno u koloni sa MINIMALNOM fiksnom visinom, ista bez
-        // obzira na fazu (ActionArea nekad ne prikazuje ništa, nekad ceo red dugmadi).
-        // Time preostali prostor iznad (sto/kup) ostaje konstantan i kup se
-        // više ne pomera kad se karte "okrenu", a ostaje lepo centriran
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -121,7 +105,6 @@ fun PortraitGamePlayScreen(
             )
         }
 
-        // Karte igrača (dno, fiksno)
         HorizontalDivider()
         PlayerHandSection(
             cards = state.playerHand,

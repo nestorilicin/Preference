@@ -1,4 +1,4 @@
-package etf.nestor.preference.domain.bidding
+package etf.nestor.preference.domain.bot
 
 sealed class BotBidStatus {
     object Thinking : BotBidStatus()

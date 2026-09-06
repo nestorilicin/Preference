@@ -15,5 +15,4 @@ enum class GameType(val value: Int) {
     HAND_MISERE(7),
     HAND_SANS(8),
 
-
 }

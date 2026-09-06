@@ -18,10 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.ui.composables.SimpleSpinner
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 @Composable
-fun SetupScreen(viewModel: SingleplayerViewModel) {
+fun SetupScreen(viewModel: SinglePlayerViewModel) {
     val selectedScore by viewModel.selectedStartScore.collectAsState()
 
     AppScreen(title = stringResource(R.string.subtitle_singleplayer)) { innerPadding ->

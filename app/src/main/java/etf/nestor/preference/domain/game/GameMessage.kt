@@ -3,7 +3,7 @@ package etf.nestor.preference.domain.game
 import etf.nestor.preference.domain.bidding.BidType
 
 sealed class GameMessage {
-    // Poruke bez parametara
+
     object Loading : GameMessage()
     object YourTurnBid : GameMessage()
     object TookTalon : GameMessage()
@@ -18,7 +18,6 @@ sealed class GameMessage {
     object AskFollow : GameMessage()
     object GameOver : GameMessage()
 
-    // Poruke sa parametrima
     data class NewRound(val dealerName: String, val firstBidderName: String) : GameMessage()
     data class YouWonBid(val value: Int) : GameMessage()
     data class BotWonBid(val botPos: Int) : GameMessage()

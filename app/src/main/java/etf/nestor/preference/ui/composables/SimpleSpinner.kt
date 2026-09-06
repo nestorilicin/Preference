@@ -20,10 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/**
- * Jednostavan spinner koji koristi samo stabilne Material3 API-je (bez @OptIn).
- * Prikazuje trenutnu vrijednost, na klik otvara DropdownMenu sa opcijama.
- */
 @Composable
 fun <T> SimpleSpinner(
     value: T,

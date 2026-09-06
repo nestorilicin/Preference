@@ -6,7 +6,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-const val BASE_URL = "http://192.168.0.20:8080/"
+const val BASE_URL = "http://192.168.0.20:8080/" // moja trenutna lokalna ipv4 adresa
 
 interface PartijaApi {
 

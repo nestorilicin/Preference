@@ -31,25 +31,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
-import etf.nestor.preference.domain.bidding.BotBidStatus
+import etf.nestor.preference.domain.bot.BotBidStatus
 import etf.nestor.preference.domain.game.GameSnapshot
 import etf.nestor.preference.domain.game.HandPhase
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
-
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 private val BID_BUBBLE_HEIGHT = 16.dp
 
-// Fiksna širina bot kolone — bez ovoga se kolona širi/skuplja u zavisnosti od trenutnog teksta
-// licitacije ("Razmišlja…" je znatno šire od "Dobar"/"Dalje"), pa cela ScoreBar (raspoređena sa
-// SpaceEvenly) "skače" svaki put kad bot promeni status. Širina je odmerena da stane i najduži
-// mogući tekst (ime + "Razmišlja…" u compact režimu).
 private val BOT_COLUMN_WIDTH = 76.dp
 private val BOT_COLUMN_WIDTH_COMPACT = 108.dp
 
 @Composable
 fun ScoreBar(
     state: GameSnapshot,
-    viewModel: SingleplayerViewModel,
+    viewModel: SinglePlayerViewModel,
     compact: Boolean = false,
 ) {
     val youFallback = stringResource(R.string.player_name_you)
@@ -123,10 +118,6 @@ fun ScoreBar(
     }
 }
 
-/**
- * Kolona za igrača: ime, pa slika i država (ako postoje), pa poeni. U landscape modu (compact)
- * previše je sadržaja za jednu kolonu, pa se deli na dve pored — ime+poeni, slika+država.
- */
 @Composable
 private fun PlayerScoreColumn(
     name: String,
@@ -186,11 +177,6 @@ private fun PlayerScoreColumn(
     }
 }
 
-/**
- * Kolona za bota: ime, pa ono što bot trenutno "govori" tokom licitacije, pa poeni. U portretu je
- * to oblačić ispod imena (rezervisanog prostora, da poeni ne skaču); u landscape modu (compact)
- * ide u istom redu kao ime ("Ime: status"), da se uštedi vertikalni prostor.
- */
 @Composable
 private fun BotScoreColumn(
     name: String,
@@ -256,7 +242,6 @@ private fun ScoreText(center: Int, compact: Boolean) {
     )
 }
 
-/** Mali "oblačić" teksta koji pokazuje šta bot trenutno radi tokom licitacije. */
 @Composable
 private fun BotBidBubble(status: BotBidStatus, modifier: Modifier = Modifier) {
     Text(

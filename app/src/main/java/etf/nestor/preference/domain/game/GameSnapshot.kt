@@ -1,7 +1,7 @@
 package etf.nestor.preference.domain.game
 
 import etf.nestor.preference.domain.bidding.BidType
-import etf.nestor.preference.domain.bidding.BotBidStatus
+import etf.nestor.preference.domain.bot.BotBidStatus
 import etf.nestor.preference.domain.model.PlayedCard
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.domain.model.Suit

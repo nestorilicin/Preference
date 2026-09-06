@@ -20,7 +20,6 @@ data class SavedGameSummary(val id: Long, val name: String, val savedAt: Long)
 @Serializable
 data class SavedGameExport(val name: String?, val savedAt: Long, val json: String)
 
-
 enum class AddGameResult { SUCCESS, DUPLICATE, FAILED, SERVER_UNAVAILABLE }
 
 enum class UploadResult { SUCCESS, DUPLICATE, FAILED, SERVER_UNAVAILABLE }
@@ -32,6 +31,7 @@ class GameSaveRepository @Inject constructor(
     private val playerPreferences: PlayerPreferences
 ) {
 
+    // za autobekap partiju
     fun observeHasAutoBackup(): Flow<Boolean> = dao.observeHasAutoBackup()
 
     suspend fun saveAutoBackup(state: SavedGameState) = upsert(name = null, state = state)
@@ -41,6 +41,7 @@ class GameSaveRepository @Inject constructor(
 
     suspend fun clearAutoBackup() = dao.deleteAutoBackup()
 
+    // za sve ostale partije
     fun observeSavedGames(): Flow<List<SavedGameSummary>> =
         dao.observeSavedGames().map { entities ->
             entities.map { SavedGameSummary(it.id, it.name.orEmpty(), it.savedAt) }
@@ -64,6 +65,7 @@ class GameSaveRepository @Inject constructor(
 
     suspend fun deleteSavedGame(id: Long) = dao.deleteById(id)
 
+    // za fajl sistem
     suspend fun exportToJson(id: Long): String? {
         val entity = dao.getById(id) ?: return null
         return Json.encodeToString(SavedGameExport(entity.name, entity.savedAt, entity.json))
@@ -82,9 +84,12 @@ class GameSaveRepository @Inject constructor(
         return AddGameResult.SUCCESS
     }
 
+    // za ktor
+
     suspend fun uploadToServer(id: Long, password: String): UploadResult {
         val entity = dao.getById(id) ?: return UploadResult.FAILED
         return try {
+            // post na /partije
             partijaApi.upload(
                 PartijaUpload(
                     password = password,
@@ -105,6 +110,7 @@ class GameSaveRepository @Inject constructor(
 
     suspend fun listServerPartije(): List<PartijaSummary>? =
         try {
+            // get na /partije
             partijaApi.listPartije()
         } catch (_: Exception) {
             null
@@ -112,6 +118,7 @@ class GameSaveRepository @Inject constructor(
 
     suspend fun downloadFromServer(id: Int, password: String): AddGameResult {
         val partija = try {
+            // get na /partije/{id}
             partijaApi.download(id, password)
         } catch (_: IOException) {
             return AddGameResult.SERVER_UNAVAILABLE
@@ -136,7 +143,7 @@ class GameSaveRepository @Inject constructor(
         if (existing != null) dao.update(entity) else dao.insert(entity)
     }
 
-    /** Zamenjuje ime igrača na poziciji 0 (čovek) imenom iz podešavanja ovog uređaja, umesto imena iz partije. */
+    // ovo sluzi da ako se preuzme tudja partija (import ili download) da bude ime iz settings
     private fun SavedGameState.withLocalPlayerName(): SavedGameState {
         if (playerNames.isEmpty()) return this
         val localName = playerPreferences.getName().ifBlank { "Igrač" }

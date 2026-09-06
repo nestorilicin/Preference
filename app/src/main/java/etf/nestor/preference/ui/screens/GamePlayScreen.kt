@@ -13,11 +13,10 @@ import etf.nestor.preference.domain.game.GameSnapshot
 import etf.nestor.preference.domain.game.HandPhase
 import etf.nestor.preference.domain.model.PlayingCard
 import etf.nestor.preference.ui.composables.ExitGameDialog
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
-
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
 @Composable
-fun GamePlayScreen(state: GameSnapshot, viewModel: SingleplayerViewModel, onExit: () -> Unit = {}) {
+fun GamePlayScreen(state: GameSnapshot, viewModel: SinglePlayerViewModel, onExit: () -> Unit = {}) {
     if (state.gameOver) {
         GameOverScreen(state = state, viewModel = viewModel)
         return
@@ -29,8 +28,7 @@ fun GamePlayScreen(state: GameSnapshot, viewModel: SingleplayerViewModel, onExit
 
     BackHandler {
         if (viewModel.isLoadedFromSavedGame) {
-            // Partija je učitana sa ekrana "Sačuvane partije" — nema dijaloga, tiho se prepiše
-            // ista sačuvana partija i vraća se direktno na uvodni singleplayer ekran.
+
             viewModel.exitLoadedSavedGame()
             onExit()
         } else {
@@ -62,7 +60,6 @@ fun GamePlayScreen(state: GameSnapshot, viewModel: SingleplayerViewModel, onExit
         }
     }
     val onDiscardConfirm: () -> Unit = { viewModel.discard(selectedCards.toList()) }
-
 
     if (isLandscape) {
         LandscapeGamePlayScreen(

@@ -62,7 +62,6 @@ class HandState(
         return phase == HandPhase.FINISHED || finishedTricks.size == 10
     }
 
-
     internal fun restoreState(
         phase: HandPhase,
         declarer: Int?,

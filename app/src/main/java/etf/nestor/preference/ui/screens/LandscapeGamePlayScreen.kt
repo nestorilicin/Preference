@@ -28,25 +28,18 @@ import etf.nestor.preference.ui.composables.ScoreBar
 import etf.nestor.preference.ui.composables.TalonArea
 import etf.nestor.preference.ui.composables.actionMessageText
 import etf.nestor.preference.ui.composables.currentGameLabel
-import etf.nestor.preference.ui.stateholders.SingleplayerViewModel
+import etf.nestor.preference.ui.stateholders.SinglePlayerViewModel
 
-// ─── Landscape raspored (bez skrola) ─────────────────────────────────────
-// Botovi više nemaju svoju kolonu levo/desno (BotHandArea ukinut) — ime, "govor" tokom
-// licitacije i poeni svih igrača (uključujući botove) sada su deo ScoreBar-a.
-
-// Igračeva ruka i sto (tekući stih + kup) — ista veličina karata svuda u landscape modu
 private val LANDSCAPE_HAND_CARD_W = 54.dp
 private val LANDSCAPE_HAND_CARD_H = 81.dp
 private val LANDSCAPE_MARGIN = 20.dp
 
-// Širina bočne trake sa porukom i dugmadima — uska, da sto/kup ostanu na sredini preostalog
-// (šireg) prostora umesto da red poruke/akcije razvlači celu širinu ekrana
 private val LANDSCAPE_SIDEBAR_WIDTH = 150.dp
 
 @Composable
 fun LandscapeGamePlayScreen(
     state: GameSnapshot,
-    viewModel: SingleplayerViewModel,
+    viewModel: SinglePlayerViewModel,
     selectedCards: Set<PlayingCard>,
     onCardClick: (PlayingCard) -> Unit,
     onDiscardConfirm: () -> Unit,
@@ -59,8 +52,6 @@ fun LandscapeGamePlayScreen(
     ) {
         ScoreBar(state, viewModel, compact = true)
 
-        // Trenutno najavljena igra (npr. "Adut: Herc", "Sans", "Betl") — vidljivo tek pošto je
-        // najavljena, nestaje kad ruka završi
         state.currentGameLabel()?.let { label ->
             Text(
                 text = label,
@@ -74,9 +65,6 @@ fun LandscapeGamePlayScreen(
             )
         }
 
-        // Glavni deo: sto (tekući stih/kup) zauzima ostatak širine i ostaje centriran u njemu,
-        // poruka + akcioni deo su uska traka sa desne strane — umesto pune širine ekrana ispod,
-        // kako ne bi ostajalo puno praznog prostora oko kratkog teksta/dugmadi
         Row(
             modifier = Modifier
                 .weight(1f)
@@ -113,7 +101,7 @@ fun LandscapeGamePlayScreen(
                     .padding(start = 10.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-                // Poruka — bez kartice, sada u uskoj koloni pa sme u više redova
+
                 Text(
                     text = state.actionMessageText(selectedCards.size),
                     modifier = Modifier
@@ -123,7 +111,6 @@ fun LandscapeGamePlayScreen(
                     style = MaterialTheme.typography.bodySmall
                 )
 
-                // Akcioni deo (faza-specifičan) — dugmad se ređaju jedno ispod drugog (uska traka)
                 ActionArea(
                     state = state,
                     viewModel = viewModel,
@@ -135,7 +122,7 @@ fun LandscapeGamePlayScreen(
             }
         }
         HorizontalDivider()
-        // Karte igrača
+
         PlayerHandSection(
             cards = state.playerHand,
             selectedCards = selectedCards,

@@ -14,8 +14,6 @@ import etf.nestor.preference.server.models.savedPartije
 
 fun Route.partijaRouting() {
     route("/partije") {
-        // Dodavanje partije uz lozinku — server dodeljuje id, čuva samo heš lozinke i upisuje na disk.
-        // Odbija se ako na serveru već postoji partija sa istim imenom.
         post {
             val upload = call.receive<PartijaUpload>()
             if (savedPartije.any { it.name == upload.name }) {
@@ -27,18 +25,16 @@ fun Route.partijaRouting() {
             val partija = addPartija(upload)
             call.respond(HttpStatusCode.Created, PartijaSummary(partija.id, partija.name))
         }
-        // Lista svih partija na serveru — samo id i ime, bez lozinki i sadržaja
         get {
             call.respond(savedPartije.map { PartijaSummary(it.id, it.name) })
         }
-        // Preuzimanje partije — id iz putanje, lozinka kao query parametar; vraća se samo ako se heš poklapa
         get("{id}") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get call.respondText(
-                "Missing id",
+                "Greška nema id",
                 status = HttpStatusCode.BadRequest
             )
             val password = call.request.queryParameters["password"] ?: return@get call.respondText(
-                "Missing password",
+                "Greška nema password",
                 status = HttpStatusCode.BadRequest
             )
             val found = savedPartije.find { it.id == id }

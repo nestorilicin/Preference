@@ -24,10 +24,6 @@ import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.domain.scoring.ScoreSheet
 
-/**
- * Sto za jednog igraca, kao u klasicnom preferansu: levi sused - igrac - desni sused.
- * Ispod igraca su njegovi centralni poeni, ispod suseda broj supa koje im je ovaj igrac dao.
- */
 @Composable
 fun ScoreSheetDialog(
     playerPosition: Int,

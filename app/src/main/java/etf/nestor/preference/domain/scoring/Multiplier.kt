@@ -5,5 +5,5 @@ enum class Multiplier(val value: Int) {
     COUNTER(2),
     RE_COUNTER(4),
     RE_RECOUNTER(8),
-    RE_RE_RECOUNTER(16)
+
 }

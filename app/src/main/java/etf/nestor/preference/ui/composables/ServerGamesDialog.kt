@@ -15,10 +15,6 @@ import androidx.compose.ui.unit.dp
 import etf.nestor.preference.R
 import etf.nestor.preference.data.network.PartijaSummary
 
-/**
- * Dijalog sa listom partija sačuvanih na serveru (samo id i ime, bez lozinki) — igrač bira
- * partiju koju želi da preuzme, nakon čega se traži lozinka (vidi [PasswordDialog]).
- */
 @Composable
 fun ServerPartijeDialog(
     partije: List<PartijaSummary>,
