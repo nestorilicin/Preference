@@ -2,5 +2,4 @@
 build/
 .idea/
 *.iml
-# partije sačuvane na disku (sadrže heš-eve lozinki) — ne treba u git
 data/
